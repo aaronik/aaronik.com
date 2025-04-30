@@ -35,84 +35,86 @@ import Project from '../components/Project.astro';
         <!-- Projects -->
         <section>
             <h1>Projects</h1>
-            <Project
-                title="Browser Network"
-                href="https://github.com/browser-network"
-                imgSrc="images/browser-network.png"
-                description="A suite of libraries designed to enable truly serverless web app development. Send cryptographically secure messages back and forth across an arbitrarily large network designed for rapid connection and high availability. Includes cryptography library, serverless, distributed database, and a dead simple switchboard."
-            />
-            <Project
-                title="Sequencer"
-                href="https://sequencer.aaronik.com"
-                imgSrc="images/sequencer.png"
-                description="A musical instrument built using web technologies including Tone.js and React.js. Uses browser network to facilitate saving to the cloud and sharing your creations. Prepare to waste a lot of time experimenting with different patterns and tunings!"
-            />
-            <Project
-                title="Evolving Ecosystem"
-                href="https://github.com/aaronik/evolution"
-                imgSrc="images/evolving-ecosystem.png"
-                description="This is a full on ecosystem of lifeforms, each with a neural net and its own genome, with food and danger, with evolutionary pressures. Every time you let it evolve a different system comes about. I've seen competition for food, I've seen cooperative strategies. I've even seen lifeforms sacrifice themselves for the betterment of the group. Evolution is an incredibly interesting thing to watch take place! This project is written in Rust and uses tui-rs to create a command line based UI."
-            />
-            <Project
-                title="GPTModels.nvim"
-                href="https://github.com/aaronik/gptmodels.nvim"
-                imgSrc="images/gptmodels.png"
-                description="My most popular open source contribution - a neovim plugin designed to integrate AI into your neovim workflow. Written in Lua, TDD, with a focus on stability. LSP Diagnostic aware, capable of communicating with Ollama hosted local models and Openai models. Includes file and selection inclusion."
-            />
-            <Project
-                title="Music Theory Wheel"
-                href="https://www.musictheory.page"
-                imgSrc="images/music-theory-wheel.png"
-                description="An interactive tool designed to help educate about and familiarize with the seven primary musical modes in western music"
-            />
-            <Project
-                title="Asteroids"
-                href="https://asteroids.aaronik.com"
-                imgSrc="images/asteroids.png"
-                description="A serverless multiplayer take on the classic. Uses Browser Network to achieve serverless multiplayer functionality. Built with React.js and HTML5 Canvas."
-            />
-            <Project
-                title="Node Quic"
-                href="https://github.com/aaronik/node-quic"
-                imgSrc="images/node-quic.png"
-                description="node-quic is a dead simple stream based QUIC server / client for use in node.js. QUIC is an improvement over TCP that uses UDP but without information loss."
-            />
-            <Project
-                title="Shardus DB"
-                href="https://gitlab.com/shardus/applications/shardus-db"
-                imgSrc="images/shardus-db.png"
-                description="A dead simple, clean, and powerful API for Shardus, the distributed and decentralized technology behind the Shardium crypocurrency"
-            />
-            <Project
-                title="Modes"
-                href="https://modes.aaronik.com"
-                imgSrc="images/modes.png"
-                description="A quick and dirty exploration of all of the musical modes possible within a 12 note scale. Expect an ear opening experience rather than an eye pleasing one ;)"
-            />
-            <Project
-                title="Crypto Trading Bot"
-                href="/"
-                imgSrc="images/crypto-trading-bot.png"
-                description="Now offline, I spent a lot of time on and had some moderate successes with a trading bot that automated trading cryptocurrencies. As time went on, exchanges became more established and charged higher trade rates, and winning became harder and harder. Eventually I took this offline in favor of a hodl approach, but I wanted it in here because it represented a lot of work over a good course of my life. Uses regression to the mean, bolinger band, and trailing stop loss based strategies. "
-            />
-            <Project
-                title="Blob Wars"
-                href="https://blobs.aaronik.com"
-                imgSrc="images/blobs.png"
-                description="A 3D game-in-progress that utilizes Browser Network to achieve serverless multiplayer. This game is a new take on a style of casual game that I love."
-            />
-            <Project
-                title="Evolutionary Conway"
-                href="https://github.com/aaronik/conway"
-                imgSrc="images/evolutionary-conway.png"
-                description="A blazingly fast version of Conway's Game of Life written in Rust. Uses an evolutionary algorithm to find interesting starting configurations. Colorizes output based on cell age."
-            />
-            <Project
-                title="AI CLI Tools"
-                href="https://github.com/aaronik/ai-functions"
-                imgSrc="images/ai-cli-tools.png"
-                description="A collection of CLI utilities for easily interacting with OpenAI AIs"
-            />
+            <div class="flex flex-wrap justify-around space-y-10 space-x-10">
+                <Project
+                    title="Browser Network"
+                    href="https://github.com/browser-network"
+                    imgSrc="images/browser-network.png"
+                    description="A suite of libraries designed to enable truly serverless web app development. Send cryptographically secure messages back and forth across an arbitrarily large network designed for rapid connection and high availability. Includes cryptography library, serverless, distributed database, and a dead simple switchboard."
+                />
+                <Project
+                    title="Sequencer"
+                    href="https://sequencer.aaronik.com"
+                    imgSrc="images/sequencer.png"
+                    description="A musical instrument built using web technologies including Tone.js and React.js. Uses browser network to facilitate saving to the cloud and sharing your creations. Prepare to waste a lot of time experimenting with different patterns and tunings!"
+                />
+                <Project
+                    title="Evolving Ecosystem"
+                    href="https://github.com/aaronik/evolution"
+                    imgSrc="images/evolving-ecosystem.png"
+                    description="This is a full on ecosystem of lifeforms, each with a neural net and its own genome, with food and danger, with evolutionary pressures. Every time you let it evolve a different system comes about. I've seen competition for food, I've seen cooperative strategies. I've even seen lifeforms sacrifice themselves for the betterment of the group. Evolution is an incredibly interesting thing to watch take place! This project is written in Rust and uses tui-rs to create a command line based UI."
+                />
+                <Project
+                    title="GPTModels.nvim"
+                    href="https://github.com/aaronik/gptmodels.nvim"
+                    imgSrc="images/gptmodels.png"
+                    description="My most popular open source contribution - a neovim plugin designed to integrate AI into your neovim workflow. Written in Lua, TDD, with a focus on stability. LSP Diagnostic aware, capable of communicating with Ollama hosted local models and Openai models. Includes file and selection inclusion."
+                />
+                <Project
+                    title="Music Theory Wheel"
+                    href="https://www.musictheory.page"
+                    imgSrc="images/music-theory-wheel.png"
+                    description="An interactive tool designed to help educate about and familiarize with the seven primary musical modes in western music"
+                />
+                <Project
+                    title="Asteroids"
+                    href="https://asteroids.aaronik.com"
+                    imgSrc="images/asteroids.png"
+                    description="A serverless multiplayer take on the classic. Uses Browser Network to achieve serverless multiplayer functionality. Built with React.js and HTML5 Canvas."
+                />
+                <Project
+                    title="Node Quic"
+                    href="https://github.com/aaronik/node-quic"
+                    imgSrc="images/node-quic.png"
+                    description="node-quic is a dead simple stream based QUIC server / client for use in node.js. QUIC is an improvement over TCP that uses UDP but without information loss."
+                />
+                <Project
+                    title="Shardus DB"
+                    href="https://gitlab.com/shardus/applications/shardus-db"
+                    imgSrc="images/shardus-db.png"
+                    description="A dead simple, clean, and powerful API for Shardus, the distributed and decentralized technology behind the Shardium crypocurrency"
+                />
+                <Project
+                    title="Modes"
+                    href="https://modes.aaronik.com"
+                    imgSrc="images/modes.png"
+                    description="A quick and dirty exploration of all of the musical modes possible within a 12 note scale. Expect an ear opening experience rather than an eye pleasing one ;)"
+                />
+                <Project
+                    title="Crypto Trading Bot"
+                    href="/"
+                    imgSrc="images/crypto-trading-bot.png"
+                    description="Now offline, I spent a lot of time on and had some moderate successes with a trading bot that automated trading cryptocurrencies. As time went on, exchanges became more established and charged higher trade rates, and winning became harder and harder. Eventually I took this offline in favor of a hodl approach, but I wanted it in here because it represented a lot of work over a good course of my life. Uses regression to the mean, bolinger band, and trailing stop loss based strategies. "
+                />
+                <Project
+                    title="Blob Wars"
+                    href="https://blobs.aaronik.com"
+                    imgSrc="images/blobs.png"
+                    description="A 3D game-in-progress that utilizes Browser Network to achieve serverless multiplayer. This game is a new take on a style of casual game that I love."
+                />
+                <Project
+                    title="Evolutionary Conway"
+                    href="https://github.com/aaronik/conway"
+                    imgSrc="images/evolutionary-conway.png"
+                    description="A blazingly fast version of Conway's Game of Life written in Rust. Uses an evolutionary algorithm to find interesting starting configurations. Colorizes output based on cell age."
+                />
+                <Project
+                    title="AI CLI Tools"
+                    href="https://github.com/aaronik/ai-functions"
+                    imgSrc="images/ai-cli-tools.png"
+                    description="A collection of CLI utilities for easily interacting with OpenAI AIs"
+                />
+            </div>
         </section>
 
         <!-- Blog -->
