@@ -1,16 +1,44 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Markdown from '../components/Markdown.astro';
-
-const explainer = `
-Whatttuuuuuuup
-`;
 ---
 
 <Layout title="Aaronik.com">
-    <h1 class="mb-10">Aaronik.com</h1>
-    <Markdown content={explainer} class="mb-10 text-lg" />
-    <p>
-        <a href="https://docs.netlify.com/frameworks/astro/" class="btn btn-lg sm:min-w-64">Read the Docs</a>
-    </p>
+    <section class="flex justify-between">
+        <img class="rounded-lg overflow-hidden" src="images/aaron.jpeg" alt="Aaron Headshot" style="height: 15rem;" />
+        <section class="">
+            <h1 class="mb-10">Aaron Sullivan</h1>
+            <hr />
+            <br />
+            <h3>TypeScript | Rust | Python | Rails | Node.js | React.js -- Full Stack Web Developer</h3>
+            <br />
+            <div class="flex">
+                <a
+                    href="https://linkedin.com/aaronsullivan"
+                    target="_blank"
+                    class="rounded-full"
+                    style="width: 44px; height: 44px; margin: 9px; background-color: #2867b2;"
+                    ><img
+                        src="https://ssl.gstatic.com/atari/images/sociallinks/linkedin_white_44dp.png"
+                        alt="LinkedIn"
+                        style="width: 44px; height: 44px;"
+                        width="44"
+                        height="44"
+                    /></a
+                >
+                <a
+                    href="https://github.com/aaronik"
+                    target="_blank"
+                    class="rounded-full"
+                    style="width: 44px; height: 44px; margin: 9px; background-color: #171516;"
+                    ><img
+                        src="https://ssl.gstatic.com/atari/images/sociallinks/github_white_44dp.png"
+                        alt="GitHub"
+                        style="width: 44px; height: 44px;"
+                        width="44"
+                        height="44"
+                    /></a
+                >
+            </div>
+        </section>
+    </section>
 </Layout>
