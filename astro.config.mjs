@@ -9,5 +9,7 @@ export default defineConfig({
         plugins: [tailwindcss()]
     },
     integrations: [react()],
-    adapter: netlify()
+    adapter: netlify(),
+    // TODO It's probably either this or CNAME
+    site: 'https://blog.aaronik.com',
 });
