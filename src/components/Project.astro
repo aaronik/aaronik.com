@@ -9,12 +9,10 @@ interface Props {
 const { title, imgSrc, href, description } = Astro.props;
 ---
 
-<li class="rounded-md overflow-hidden max-w-sm bg-black list-none">
-  <img src={imgSrc} alt={title} class="w-full h-48 object-cover" />
-  <div class="p-4">
-    <h3 class="text-lg font-semibold mb-2">
-      <a href={href} class="hover:underline" target="_blank">{title}</a>
-    </h3>
-    <p class="text-gray-600 text-sm">{description}</p>
-  </div>
+<li class="rounded-md overflow-hidden hover:bg-gray-700 max-w-sm bg-gray-800 shadow-lg list-none transition-colors duration-200">
+    <a href={href} target="_blank" class="block no-underline">
+        <h3 class="text-lg font-semibold mb-2 text-white p-3">{title}</h3>
+        <img src={imgSrc} alt={title} class="w-full h-48 object-cover p-3" />
+        <p class="text-gray-400 text-sm p-3">{description}</p>
+    </a>
 </li>
