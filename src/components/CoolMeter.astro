@@ -1,0 +1,67 @@
+---
+interface Props {
+    rating: 1 | 2 | 3 | 4 | 5;
+    description: string;
+    class?: string;
+}
+
+// Props
+const { rating, description, class: className } = Astro.props;
+
+// Validate rating to be between 1 and 5
+const validRating = Math.min(Math.max(rating, 1), 5);
+---
+
+<div class:list={["cool-meter", className]}>
+    <div class="rating-label">
+        Coolness:
+        <span class="dots">
+            {Array.from({ length: 5 }).map((_, i) => <span class={`dot ${i < validRating ? 'active' : ''}`} />)}
+        </span>
+    </div>
+    <div class="description">{description}</div>
+</div>
+
+<style>
+    .cool-meter {
+        font-family: Arial, sans-serif;
+        font-size: 0.9rem;
+        margin-top: 0.3rem;
+    }
+
+    .rating-label {
+        font-weight: bold;
+        margin-bottom: 0.2rem;
+    }
+
+    .dots {
+        display: inline-flex;
+        gap: 0.6rem;
+        margin-left: 0.3rem;
+        vertical-align: middle;
+    }
+
+    .dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background-color: #ccc;
+        box-shadow: none;
+        transition:
+            background-color 0.3s,
+            box-shadow 0.3s;
+    }
+
+    .dot.active {
+        background-color: #28a745;
+        box-shadow: 0 0 6px 0px rgba(40, 167, 69, 0.7);
+    }
+
+    .description {
+        font-style: italic;
+        color: #777;
+        font-size: 0.8rem;
+        margin-top: 0.3rem;
+        margin-left: 0.3rem;
+    }
+</style>
