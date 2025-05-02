@@ -1,0 +1,20 @@
+---
+interface Props {
+    tag: string;
+}
+
+const { tag } = Astro.props;
+---
+
+<h3 id={'pill-' + tag} data-tag={tag} class="pill mx-3 first:ml-0" aria-label={`Select ${tag} tag`}>
+    {tag}
+</h3>
+
+<script>
+    // TODO: This currently just logs. Eventually maybe it'll filter projects/blog posts? Just some fancy pants stuff
+    document.querySelectorAll('.pill').forEach((el) => {
+        el.addEventListener('click', () => {
+            console.log(el['dataset'].tag);
+        });
+    });
+</script>
