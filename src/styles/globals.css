@@ -22,10 +22,6 @@
         @apply text-2xl font-bold sm:text-3xl;
     }
 
-    a:not(.btn) {
-        @apply underline transition hover:opacity-80;
-    }
-
     pre {
         @apply p-6 overflow-x-auto rounded-lg;
     }
