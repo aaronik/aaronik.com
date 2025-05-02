@@ -1,0 +1,130 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Code } from 'astro:components';
+
+const py1 = `
+from eventsourcing.domain import Aggregate, event
+
+class Account(Aggregate):
+    def __init__(self, name: str):
+        self.name = name
+        self.balance = 0
+
+    @event("Deposited")
+    def deposit(self, amount: int):
+        self.balance += amount
+
+    @event("Withdrawn")
+    def withdraw(self, amount: int):
+        if amount > self.balance:
+            raise ValueError("Insufficient funds")
+        self.balance -= amount
+
+# Usage example
+if __name__ == "__main__":
+    account = Account(name="Alice")
+    account.deposit(100)
+    account.withdraw(30)
+    print(f"Account balance after events: " + account.balance)  # Output: 70
+`;
+---
+
+<Layout title="aaronik | event sourcing">
+    <h1>When Is It Right to Use Event Sourcing?</h1>
+
+    <img src="/images/py-event-sourcing.jpg" />
+
+    <p>
+        Event Sourcing is a powerful architectural pattern that can transform how you handle state and data in your applications. Instead of storing just the
+        current state, event sourcing stores a sequence of immutable events that represent every state change. This allows you to reconstruct history, audit
+        changes, and build new features like temporal queries or event-driven integrations.
+    </p>
+
+    <p>But event sourcing is not a silver bullet. It comes with complexity and operational overhead. So, when is it the right choice?</p>
+
+    <h2>1. Your Domain Benefits from Auditability and History</h2>
+    <p>
+        If you need a complete, immutable audit trail of every change - for example, in financial systems, compliance-heavy domains, or regulated industries -
+        event sourcing shines. Each event represents a domain fact that can be audited, making it easier to track down how and why your system reached its
+        current state.
+    </p>
+
+    <h2>2. Complex Business Logic and Domain Behaviors</h2>
+    <p>
+        When your domain involves complex business rules that change over time or require rollback capabilities, event sourcing helps. You can replay event
+        streams to debug, troubleshoot, or regenerate the current state after code changes.
+    </p>
+
+    <h2>3. You Need Temporal Queries and State Recreation</h2>
+    <p>
+        Event sourcing lets you query "what was the state at time T?" or "how did a particular change happen?" This capability is very hard to support in a
+        traditional CRUD database schema.
+    </p>
+
+    <h2>4. Integration via Event-Driven Architecture</h2>
+    <p>
+        Event sourcing naturally fits with event-driven architectures, where different subsystems react asynchronously to events. If your system is made of
+        multiple components that need to stay loosely coupled and react independently to changes, event sourcing gives you a clean foundation.
+    </p>
+
+    <h2>5. You Can Handle Increased Complexity in Infrastructure</h2>
+    <p>
+        Event sourcing requires managing event storage, snapshots (for performance in rebuilding state), event versioning, and eventual consistency issues. If
+        your team and infrastructure are ready for this complexity, event sourcing can pay off. If not, the operational overhead might outweigh the benefits.
+    </p>
+
+    <h2>Example in Python with the <a href="https://pypi.org/project/eventsourcing/"><code>eventsourcing</code></a> Library</h2>
+
+    <p>
+        The <a href="https://github.com/johnbywater/eventsourcing">eventsourcing</a> library is a popular Python library that helps you implement event sourcing
+        without reinventing the wheel.
+    </p>
+
+    <p>Here's a simple example defining an <code>Account</code> aggregate root where each event is stored and used to reconstruct the current balance:</p>
+
+    <pre>
+      <Code lang="py" code={py1} />
+    </pre>
+
+    <p>
+        Every state-changing method is decorated with <code>@event</code>, which means the state transitions are recorded as events. The library can replay
+        these events to rebuild the aggregate state at any time.
+    </p>
+
+    <h2>Summary</h2>
+    <ul>
+        <li>Use event sourcing when auditability, traceability, and temporal state recreation are critical.</li>
+        <li>Complex domains with evolving business rules benefit from it.</li>
+        <li>It's a natural fit for event-driven architectures.</li>
+        <li>Be prepared for operational complexity including event versioning and snapshotting.</li>
+        <li>If your use case is simple or your team unfamiliar with event-driven patterns, start with simpler persistence models.</li>
+    </ul>
+
+    <p>
+        By carefully considering your domain needs and operational constraints, you can decide if event sourcing is the right architectural pattern for your
+        project.
+    </p>
+</Layout>
+
+<style>
+    h1 {
+        margin-bottom: 3rem;
+    }
+
+    h2 {
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+    }
+
+    img {
+        display: block;
+        margin: 0 auto 2rem;
+        max-width: 100%;
+        height: auto;
+    }
+
+    p {
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+    }
+</style>
