@@ -27,3 +27,4 @@ All commands are run from the root of the project, from a terminal:
   builds into the _astro folder. So in `public/` there's a .nojekyll file. This file
   instructs github to skip jekyll when serving, which is required for all build files
   to be served.
+* SVG Logo comes from https://text-to-svg.com/
