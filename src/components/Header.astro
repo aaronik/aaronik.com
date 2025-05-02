@@ -2,13 +2,12 @@
 import Logo from '../components/Logo.astro';
 
 const navItems = [
-    { linkText: 'Home', href: '/' },
-    { linkText: 'Projects', href: '/projects' },
-    { linkText: 'Blog', href: '/blog' }
+    { linkText: 'Projects', href: '#projects' },
+    { linkText: 'Blog', href: '#blog' }
 ];
 ---
 
-<nav class="flex flex-wrap items-center gap-4 pt-6 pb-16 sm:pt-12 sm:pb-24">
+<nav class="flex flex-wrap items-center gap-4 mb-6 p-3 justify-between sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md font-mono rounded-lg">
     <a href="/">
         <Logo />
     </a>
