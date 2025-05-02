@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import SocialLink from '../components/SocialLink.astro';
 import Project from '../components/Project.astro';
 import Pill from '../components/Pill.astro';
+import BlogCard from '../components/BlogCard.astro';
 ---
 
 <Layout title="aaronik">
@@ -10,7 +11,7 @@ import Pill from '../components/Pill.astro';
         <!-- Main bit -->
         <section class="flex justify-around items-center">
             <img class="rounded-lg overflow-hidden border-4 border-gray-700 shadow-lg" src="images/aaron.jpeg" alt="Aaron Headshot" style="height: 15rem;" />
-            <section class="flex flex-col justify-center ml-8">
+            <div class="flex flex-col justify-center ml-8">
                 <h1 class="text-4xl font-extrabold">Aaron Sullivan</h1>
                 <hr class="border-gray-700 mb-6 mt-6" />
                 <h2 class="text-lg">Full Stack Web Developer</h2>
@@ -92,7 +93,7 @@ import Pill from '../components/Pill.astro';
                 />
                 <Project
                     title="Music Theory Wheel"
-                    href="https://www.musictheory.page"
+                    href="https://www.musictheory.page?new-wheel"
                     imgSrc="images/music-theory-wheel.png"
                     description="An interactive tool designed to help educate about and familiarize with the seven primary musical modes in western music"
                     rating={2}
@@ -169,13 +170,11 @@ import Pill from '../components/Pill.astro';
         <section>
             <h2 id="blog" class="scroll-mt-24 pb-2 mb-6 text-3xl font-bold border-b border-gray-700">Blog</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <Project
-                    title="AI CLI Tools"
-                    href="https://github.com/aaronik/ai-functions"
-                    imgSrc="images/ai-cli-tools.png"
-                    description="A collection of CLI utilities for easily interacting with OpenAI AIs"
-                    rating={3}
-                    reason="Relatively simple tools, but with a really tight CLI interface. Very practical."
+                <BlogCard
+                    title="What a wild time to be alive."
+                    href="/blog/01-googi"
+                    imgSrc="images/corgi.jpg"
+                    description="This is not a real blog post about a corgi called googi. Googi at first was really good but then got a ton of money and compromised on its values and now everything's weird. He has a friend though called Facefuck who evil from the start"
                 />
             </div>
         </section>
