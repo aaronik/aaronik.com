@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { Code } from 'astro:components';
+import './blog.css'
 
 const py1 = `
 from eventsourcing.domain import Aggregate, event
@@ -105,26 +106,3 @@ if __name__ == "__main__":
         project.
     </p>
 </Layout>
-
-<style>
-    h1 {
-        margin-bottom: 3rem;
-    }
-
-    h2 {
-        margin-top: 3rem;
-        margin-bottom: 1.5rem;
-    }
-
-    img {
-        display: block;
-        margin: 0 auto 2rem;
-        max-width: 100%;
-        height: auto;
-    }
-
-    p {
-        margin-bottom: 1.5rem;
-        line-height: 1.6;
-    }
-</style>
