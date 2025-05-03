@@ -6,6 +6,7 @@ slug: "01-when-event-sourcing"
 imgSrc: "images/event-sourcing.png"
 description: "When is it right, and when is it wrong, to use an Event Sourcing data pattern, with examples in python"
 date: "May 2 2025"
+authors: ["Aaron Sullivan"]
 ---
 
 ![Event Sourcing](/images/event-sourcing.png)

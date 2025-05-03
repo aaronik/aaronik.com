@@ -20,6 +20,7 @@ const { Content } = await render(post);
 
 <Layout title={post.data.pageTitle}>
     <h1>{post.data.title}</h1>
+    {post.data.authors.map(author => <p class="text-sm text-gray-500 font-mono tracking-wide text-right">{author}</p>)}
     <p class="text-sm text-gray-500 font-mono tracking-wide text-right">{post.data.date}</p>
     <br />
     <br />

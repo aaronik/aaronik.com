@@ -6,6 +6,7 @@ slug: "02-how-to-move-fast-event-sourcing"
 imgSrc: "/images/py-event-sourcing.jpg"
 description: "How to iterate quickly while using Event Sourcing"
 date: "May 2 2025"
+authors: ["Aaron Sullivan"]
 ---
 
 ![Event Sourcing](/images/py-event-sourcing.jpg)
