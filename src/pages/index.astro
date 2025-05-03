@@ -6,9 +6,6 @@ import Pill from '../components/Pill.astro';
 import PostCard from '../components/PostCard.astro';
 import { getCollection } from 'astro:content';
 
-// Get all entries from a collection.
-// Requires the name of the collection as an argument.
-// @ts-ignore
 const allBlogPosts = await getCollection('blog');
 ---
 
@@ -178,8 +175,8 @@ const allBlogPosts = await getCollection('blog');
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {
                     allBlogPosts.map((post: { data: any }) => {
-                        const { title, href, imgSrc, description } = post.data;
-                        return <PostCard {...{ title, href, imgSrc, description }} />;
+                        const { title, slug, imgSrc, description } = post.data;
+                        return <PostCard href={"/post/" + slug} {...{ title, imgSrc, description }} />;
                     })
                 }
             </div>

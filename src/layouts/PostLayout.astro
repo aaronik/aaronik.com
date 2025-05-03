@@ -1,5 +1,5 @@
 ---
-import '../pages/post/post.css';
+import './post.css';
 import Layout from './Layout.astro';
 
 // See also content.config.ts
@@ -7,7 +7,7 @@ import Layout from './Layout.astro';
 interface FrontMatter {
     pageTitle: string;
     title: string;
-    href: string;
+    slug: string;
     imgSrc: string;
     description: string;
     date: string;

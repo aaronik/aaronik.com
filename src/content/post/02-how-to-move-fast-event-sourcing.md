@@ -2,7 +2,7 @@
 layout: "../../layouts/PostLayout.astro"
 pageTitle: "aaronik | event sourcing"
 title: "How to Iterate Quickly while using Event Sourcing"
-href: "/post/02-how-to-move-fast-event-sourcing"
+slug: "02-how-to-move-fast-event-sourcing"
 imgSrc: "/images/py-event-sourcing.jpg"
 description: "How to iterate quickly while using Event Sourcing"
 date: "May 2 2025"

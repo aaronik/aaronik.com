@@ -2,7 +2,7 @@
 layout: "../../layouts/PostLayout.astro"
 pageTitle: "aaronik | event sourcing"
 title: "Using an Upcast Pattern with a Normal Database"
-href: "/post/03-upcasting-normal-db"
+slug: "03-upcasting-normal-db"
 imgSrc: "images/py-event-sourcing.jpg"
 description: "The benefits of upcasting, even with a non event sourced database"
 date: "May 2 2025"
