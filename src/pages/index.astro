@@ -4,6 +4,12 @@ import SocialLink from '../components/SocialLink.astro';
 import Project from '../components/Project.astro';
 import Pill from '../components/Pill.astro';
 import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+// Get all entries from a collection.
+// Requires the name of the collection as an argument.
+// @ts-ignore
+const allBlogPosts = await getCollection('blog');
 ---
 
 <Layout title="aaronik">
@@ -44,7 +50,7 @@ import PostCard from '../components/PostCard.astro';
                         alt="Email"
                     />
                 </div>
-            </section>
+            </div>
         </section>
 
         <!-- Projects -->
@@ -170,24 +176,12 @@ import PostCard from '../components/PostCard.astro';
         <section class="mt-2">
             <h2 id="blog" class="scroll-mt-24 pb-2 mb-6 text-3xl font-bold border-b border-gray-700">Blog</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <PostCard
-                    title="When to use Event Sourcing"
-                    href="/post/01-when-event-sourcing"
-                    imgSrc="images/py-event-sourcing.jpg"
-                    description="When is it right, and when is it wrong, to use an Event Sourcing data pattern, with examples in python"
-                />
-                <PostCard
-                    title="How to move fast with Event Sourcing"
-                    href="/post/02-how-to-move-fast-event-sourcing"
-                    imgSrc="images/py-event-sourcing.jpg"
-                    description="How to iterate quickly while using Event Sourcing"
-                />
-                <PostCard
-                    title="Using an Event Sourcing inspired Upcast pattern with a normal DB"
-                    href="/post/03-upcasting-normal-db"
-                    imgSrc="images/py-event-sourcing.jpg"
-                    description="The benefits of upcasting, even with a non event sourced database"
-                />
+                {
+                    allBlogPosts.map((post: { data: any }) => {
+                        const { title, href, imgSrc, description } = post.data;
+                        return <PostCard {...{ title, href, imgSrc, description }} />;
+                    })
+                }
             </div>
         </section>
     </div>
