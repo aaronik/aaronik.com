@@ -8,7 +8,7 @@ description: "When is it right, and when is it wrong, to use an Event Sourcing d
 date: "May 2 2025"
 ---
 
-![Event Sourcing](/images/py-event-sourcing.jpg)
+![Event Sourcing](/images/event-sourcing.png)
 
 Event Sourcing is a powerful architectural pattern that can transform how you handle state and data in your applications. Instead of storing just the current state, event sourcing stores a sequence of immutable events that represent every state change. This allows you to reconstruct history, audit changes, and build new features like temporal queries or event-driven integrations.
 
