@@ -8,7 +8,7 @@ import PostCard from '../components/PostCard.astro';
 
 <Layout title="aaronik">
     <div class="flex flex-col space-y-10">
-        <!-- Main bit -->
+        <!-- Bio -->
         <section class="flex justify-around items-center">
             <img class="rounded-lg overflow-hidden border-4 border-gray-700 shadow-lg" src="images/aaron.jpeg" alt="Aaron Headshot" style="height: 15rem;" />
             <div class="flex flex-col justify-center ml-8">
@@ -48,7 +48,7 @@ import PostCard from '../components/PostCard.astro';
         </section>
 
         <!-- Projects -->
-        <section>
+        <section class="mt-2">
             <h2 id="projects" class="scroll-mt-24 pb-2 mb-6 text-3xl font-bold border-b border-gray-700">Projects</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <Project
@@ -167,7 +167,7 @@ import PostCard from '../components/PostCard.astro';
         </section>
 
         <!-- Blog -->
-        <section>
+        <section class="mt-2">
             <h2 id="blog" class="scroll-mt-24 pb-2 mb-6 text-3xl font-bold border-b border-gray-700">Blog</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <PostCard

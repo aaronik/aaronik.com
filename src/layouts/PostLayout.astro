@@ -1,0 +1,24 @@
+---
+import '../pages/post/post.css';
+import Layout from './Layout.astro';
+
+// See also content.config.ts
+interface FrontMatter {
+    pageTitle: string;
+    title: string;
+    href: string;
+    imgSrc: string;
+    description: string;
+    date: string;
+}
+
+const frontmatter: FrontMatter = Astro.props.frontmatter;
+---
+
+<Layout title={frontmatter.pageTitle}>
+    <h1>{frontmatter.title}</h1>
+    <p class="text-sm text-gray-500 font-mono tracking-wide text-right">{frontmatter.date}</p>
+    <br />
+    <br />
+    <slot />
+</Layout>

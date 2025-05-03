@@ -7,7 +7,7 @@ const navItems = [
 ];
 ---
 
-<nav class="flex flex-wrap items-center gap-4 mb-6 p-3 justify-between sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md font-mono rounded-b-xl">
+<nav class="flex flex-wrap items-center gap-4 p-3 justify-between sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md font-mono rounded-b-xl">
     <a class="no-underline" href="/">
         <Logo />
     </a>
@@ -15,7 +15,7 @@ const navItems = [
         !!navItems?.length && (
             <ul class="flex flex-wrap gap-x-4 gap-y-1">
                 {navItems.map((item) => (
-                    <li>
+                    <li class="list-none">
                         <a href={item.href} class="inline-block no-underline p-3 bg-gray-800 rounded-lg shadow-lg">
                             {item.linkText}
                         </a>

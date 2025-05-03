@@ -1,5 +1,5 @@
 h1 {
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
 }
 
 h2 {
@@ -17,4 +17,8 @@ img {
 p {
     margin-bottom: 1.5rem;
     line-height: 1.6;
+}
+
+ol,ul,menu {
+    list-style: unset;
 }
