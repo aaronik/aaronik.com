@@ -19,5 +19,9 @@ p {
 }
 
 ol,ul,menu {
-    list-style: unset;
+    list-style:disc;
+
+    li {
+        margin-left: 1rem;
+    }
 }

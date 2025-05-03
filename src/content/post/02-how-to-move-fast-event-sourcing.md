@@ -7,6 +7,7 @@ imgSrc: "/images/py-event-sourcing.jpg"
 description: "How to iterate quickly while using Event Sourcing"
 date: "May 2 2025"
 authors: ["Aaron Sullivan"]
+draft: true
 ---
 
 ![Event Sourcing](/images/py-event-sourcing.jpg)

@@ -7,7 +7,8 @@ const blog = defineCollection({
     schema: z.object({
         title: z.string(),
         pageTitle: z.string(),
-        slug: z.string(),
+        slug: z.string(), // TODO I shouldn't need this, filename is same
+        draft: z.boolean(),
         imgSrc: z.string(),
         description: z.string(),
         date: z.string(),

@@ -7,6 +7,7 @@ imgSrc: "images/event-sourcing.png"
 description: "When is it right, and when is it wrong, to use an Event Sourcing data pattern, with examples in python"
 date: "May 2 2025"
 authors: ["Aaron Sullivan"]
+draft: false
 ---
 
 ![Event Sourcing](/images/event-sourcing.png)

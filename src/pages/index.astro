@@ -176,9 +176,12 @@ const allBlogPosts = await getCollection('blog');
                 {
                     allBlogPosts
                         // The sorting means name your md file in order starting with 01, 02, 03, etc.
-                        .sort((a, b) => a.filePath < b.filePath ? -1 : 1)
+                        .sort((a, b) => (a.filePath < b.filePath ? -1 : 1))
                         .map((post: { data: any }) => {
-                            const { title, slug, imgSrc, description } = post.data;
+                            const { title, slug, imgSrc, description, draft } = post.data;
+                            if (draft) {
+                                return;
+                            }
                             return <PostCard href={'/post/' + slug} {...{ title, imgSrc, description }} />;
                         })
                 }
