@@ -3,7 +3,7 @@ layout: "../../layouts/PostLayout.astro"
 pageTitle: "aaronik | event sourcing"
 title: "When Is It Right to Use Event Sourcing?"
 href: "/post/01-when-event-sourcing"
-imgSrc: "images/py-event-sourcing.jpg"
+imgSrc: "images/event-sourcing.png"
 description: "When is it right, and when is it wrong, to use an Event Sourcing data pattern, with examples in python"
 date: "May 2 2025"
 ---
