@@ -3,40 +3,44 @@ import Pill from '../Pill.astro';
 import SocialLink from '../SocialLink.astro';
 ---
 
-<section class="flex justify-around items-center">
-    <img class="rounded-lg overflow-hidden border-4 border-gray-700 shadow-lg" src="images/aaron.jpeg" alt="Aaron Headshot" style="height: 15rem;" />
-    <div class="flex flex-col justify-center ml-8">
-        <h1 class="text-4xl font-extrabold">Aaron Sullivan</h1>
-        <hr class="border-gray-700 mb-6 mt-6" />
-        <h2 class="text-lg">Full Stack Web Developer</h2>
-        <hr class="border-gray-700 mb-6 mt-6" />
-        <div class="flex items-center">
-            <Pill tag="Typescript" /> |
-            <Pill tag="Rust" /> |
-            <Pill tag="Python" /> |
-            <Pill tag="Rails" /> |
-            <Pill tag="Node.js" /> |
-            <Pill tag="React.js" />
-        </div>
-        <div class="flex space-x-4 mt-6">
-            <SocialLink
-                href="https://linkedin.com/in/aaronsullivan"
-                color="#2867b2"
-                src="https://ssl.gstatic.com/atari/images/sociallinks/linkedin_white_44dp.png"
-                alt="LinkedIn"
-            />
-            <SocialLink
-                href="https://github.com/aaronik"
-                color="#171516"
-                src="https://ssl.gstatic.com/atari/images/sociallinks/github_white_44dp.png"
-                alt="GitHub"
-            />
-            <SocialLink
-                href="mailto:aasullivan1618@gmail.com"
-                color="#5f6368"
-                src="https://ssl.gstatic.com/atari/images/sociallinks/email_white_44dp.png"
-                alt="Email"
-            />
-        </div>
+<section class="flex flex-col md:flex-row justify-around items-center">
+  <img
+    class="rounded-lg overflow-hidden border-4 border-gray-700 shadow-lg max-w-full h-60"
+    src="images/aaron.jpeg"
+    alt="Aaron Headshot"
+  />
+  <div class="flex flex-col items-center justify-center mt-6 md:mt-0 md:ml-8 px-4 md:px-0">
+    <h1 class="text-4xl font-extrabold">Aaron Sullivan</h1>
+    <hr class="border-gray-700 mb-6 mt-6" />
+    <h2 class="text-lg">Full Stack Web Developer</h2>
+    <hr class="border-gray-700 mb-6 mt-6" />
+    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+      <Pill tag="Typescript" />|
+      <Pill tag="Rust" />|
+      <Pill tag="Python" />|
+      <Pill tag="Rails" />|
+      <Pill tag="Node.js" />|
+      <Pill tag="React.js" />
     </div>
+    <div class="flex space-x-4 mt-6">
+      <SocialLink
+        href="https://linkedin.com/in/aaronsullivan"
+        color="#2867b2"
+        src="https://ssl.gstatic.com/atari/images/sociallinks/linkedin_white_44dp.png"
+        alt="LinkedIn"
+      />
+      <SocialLink
+        href="https://github.com/aaronik"
+        color="#171516"
+        src="https://ssl.gstatic.com/atari/images/sociallinks/github_white_44dp.png"
+        alt="GitHub"
+      />
+      <SocialLink
+        href="mailto:aasullivan1618@gmail.com"
+        color="#5f6368"
+        src="https://ssl.gstatic.com/atari/images/sociallinks/email_white_44dp.png"
+        alt="Email"
+      />
+    </div>
+  </div>
 </section>
