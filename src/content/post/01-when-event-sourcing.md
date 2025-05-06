@@ -16,25 +16,37 @@ Event Sourcing is a powerful architectural pattern that can transform how you ha
 
 But event sourcing is not a silver bullet. It comes with complexity and operational overhead. So, when is it the right choice?
 
+<br/>
+
 ## 1. Your Domain Benefits from Auditability and History
 
 If you need a complete, immutable audit trail of every change - for example, in financial systems, compliance-heavy domains, or regulated industries - event sourcing shines. Each event represents a domain fact that can be audited, making it easier to track down how and why your system reached its current state.
+
+<br/>
 
 ## 2. Complex Business Logic and Domain Behaviors
 
 When your domain involves complex business rules that change over time or require rollback capabilities, event sourcing helps. You can replay event streams to debug, troubleshoot, or regenerate the current state after code changes.
 
+<br/>
+
 ## 3. You Need Temporal Queries and State Recreation
 
 Event sourcing lets you query "what was the state at time T?" or "how did a particular change happen?" This capability is very hard to support in a traditional CRUD database schema.
+
+<br/>
 
 ## 4. Integration via Event-Driven Architecture
 
 Event sourcing naturally fits with event-driven architectures, where different subsystems react asynchronously to events. If your system is made of multiple components that need to stay loosely coupled and react independently to changes, event sourcing gives you a clean foundation.
 
+<br/>
+
 ## 5. You Can Handle Increased Complexity in Infrastructure
 
 Event sourcing requires managing event storage, snapshots (for performance in rebuilding state), event versioning, and eventual consistency issues. If your team and infrastructure are ready for this complexity, event sourcing can pay off. If not, the operational overhead might outweigh the benefits.
+
+<br/>
 
 ## Example in Python with the [`eventsourcing`](https://pypi.org/project/eventsourcing/) Library
 

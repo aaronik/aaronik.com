@@ -1,10 +1,28 @@
 h1 {
     margin-bottom: 1rem;
+    font-size: var(--text-3xl);
+    font-weight: var(--font-weight-black)
 }
 
 h2 {
-    margin-top: 4.5rem;
+    margin-top: 1.5rem;
     margin-bottom: 1.5rem;
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-extrabold)
+}
+
+h3 {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-bold)
+}
+
+h4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold)
 }
 
 img {
@@ -16,12 +34,15 @@ img {
 
 p {
     line-height: 1.6;
+    font-size: var(--text-base);
 }
 
-ol,ul,menu {
-    list-style:disc;
+ol, ul, menu {
+    list-style: disc;
+}
 
-    li {
-        margin-left: 1rem;
-    }
+li {
+    margin-left: 1rem;
+    line-height: 1.5rem;
+    font-size: var(--text-base);
 }
