@@ -7,9 +7,11 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "astro check",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.4",
     "@astrojs/netlify": "^6.2.3",
     "@astrojs/react": "^4.2.1",
     "@fontsource-variable/inter": "^5.2.5",
@@ -25,6 +27,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwindcss": "^4.0.14",
+    "typescript": "^5.8.3",
     "unique-names-generator": "^4.7.1"
   },
   "devDependencies": {
