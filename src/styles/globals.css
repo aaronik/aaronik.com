@@ -5,6 +5,7 @@
     --color-primary: #f67280;
     --color-primary-content: #101828;
     --color-complementary: #355c7d;
+    --color-accent: #77ffff;
     --background-image-noise: linear-gradient(
             to bottom,
             color-mix(in oklab, var(--color-gray-950) 0%, transparent),
