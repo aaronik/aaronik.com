@@ -3,14 +3,14 @@ layout: "../../layouts/PostLayout.astro"
 pageTitle: "aaronik | event sourcing"
 title: "When Is It Right to Use Event Sourcing?"
 slug: "01-when-event-sourcing"
-imgSrc: "images/event-sourcing.png"
+imgSrc: "images/custom-event-sourcing.svg"
 description: "When is it right, and when is it wrong, to use an Event Sourcing data pattern, with examples in python"
 date: "May 2 2025"
 authors: ["Aaron Sullivan"]
 draft: false
 ---
 
-![Event Sourcing](/images/event-sourcing.png)
+![Event Sourcing](/images/custom-event-sourcing.svg)
 
 Event Sourcing is a powerful architectural pattern that can transform how you handle state and data in your applications. Instead of storing just the current state, event sourcing stores a sequence of immutable events that represent every state change. This allows you to reconstruct history, audit changes, and build new features like temporal queries or event-driven integrations.
 
