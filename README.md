@@ -29,3 +29,4 @@ All commands are run from the root of the project, from a terminal:
   instructs github to skip jekyll when serving, which is required for all build files
   to be served.
 * SVG Logo comes from https://text-to-svg.com/
+* Favicon from https://favicon.io/favicon-generator/, color #77ffff
