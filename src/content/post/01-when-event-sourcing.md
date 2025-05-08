@@ -260,10 +260,14 @@ class EnhancedTraditionalAccount:
         return self.transactions
 ```
 
-With the traditional approach, we had to:
-1. Add a completely new data structure
-2. Update every state-changing method to record history
-3. Create a new method to access the transaction history
+<figure>
+    <strong>With the traditional approach, we had to:</strong>
+    <ol>
+        <li>Add a completely new data structure</li>
+        <li>Update every state-changing method to record history</li>
+        <li>Create a new method to access the transaction history</li>
+    </ol>
+</figure>
 
 #### Event Sourcing Approach - Adding a Transaction History
 
@@ -294,13 +298,17 @@ class EnhancedEventSourcedAccount(Aggregate):
     # The framework handles this for us!
 ```
 
-With event sourcing:
-1. We simply added new parameters to our events
-2. No need for new data structures or methods to track history
-3. History was already being captured automatically
-4. However, we may need to handle existing events through upcasting
+<figure>
+    <strong>With event sourcing:</strong>
+    <ol>
+        <li>We simply added new parameters to our events</li>
+        <li>No need for new data structures or methods to track history</li>
+        <li>History was already being captured automatically</li>
+        <li>However, we may need to handle existing events through upcasting</li>
+    </ol>
+</figure>
 
-### A Note on Upcasting
+### Upcasting
 
 This example highlights an important point about event sourcing: when you add new fields to events, you need to handle existing events through a process called **upcasting**.
 
@@ -316,7 +324,9 @@ def upcast_deposit_event(old_event):
     return old_event
 ```
 
-This upcasting step is necessary whenever you evolve your event schema (although in our case, it isn't actually necessary because our event parameters have default values). While upcasting adds some complexity, it allows you to maintain all your historical data while still evolving your domain model - a key benefit of event sourcing that traditional approaches can't match.
+This upcasting step is usually necessary whenever you evolve your event schema, although in our case it isn't necessary because all of our event parameters have default values.
+
+While upcasting adds some complexity, it allows you to maintain all your historical data while still evolving your domain model - a key benefit of event sourcing that traditional approaches can't match.
 
 ## Summary
 
@@ -327,7 +337,7 @@ This upcasting step is necessary whenever you evolve your event schema (although
 - Invest time in event storming and proper domain modeling before implementation.
 - Keep events small and discrete to avoid painful upcasting issues.
 - For teams new to event sourcing, invest in upfront learning to avoid costly mistakes.
-- If your use case is simple or your team unfamiliar with event-driven patterns, start with simpler persistence models.
+- If your use case is simple or your team unfamiliar with event-driven patterns, consider starting with simpler persistence models.
 
 By carefully considering your domain needs and operational constraints, you can decide if event sourcing is the right architectural pattern for your project.
 

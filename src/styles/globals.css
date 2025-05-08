@@ -12,6 +12,7 @@
             color-mix(in oklab, var(--color-gray-950) 100%, transparent)
         ),
         url('/images/noise.png');
+    --code-background: #24292e;
 }
 
 @layer base {
