@@ -59,7 +59,7 @@ Based on my team's experience with event sourcing in various projects, here are 
 
 One of the biggest challenges with event sourcing is transitioning from the traditional way of thinking about data (tables, fields, current state) to modeling processes as events. It's easy to make mistakes when you're first getting started:
 
-> "Modeling your process and system as events is not something people are used to. And it's fundamental. If you don't know what your events are or how to model them, you're going to run into a lot of problems."
+> "Modeling your process and system as events is not something people are used to. And it's fundamental. If you don't know what your events are or how to model them, you're going to run into a lot of problems." -- Kurtis
 
 **Solution**: Before writing any code, invest time in brain storming sessions with your team and business stakeholders. Event storming is a workshop-based approach where you map out the domain events on a whiteboard to understand the flow of events in your system. This helps everyone think in terms of "what happens" rather than "what state do we store."
 
@@ -67,7 +67,7 @@ One of the biggest challenges with event sourcing is transitioning from the trad
 
 When you include too much information or entire domain models in your events, you'll face painful upcasting issues whenever those models change:
 
-> "We put a bunch of our domain models in the events. And that ended up burning us big time down the road. We had to upcast every time we changed one of these different models, which happened all the time."
+> "We put a bunch of our domain models in the events. And that ended up burning us big time down the road. We had to upcast every time we changed one of these different models, which happened all the time." -- Sully
 
 **Solution**: Keep events minimal, containing only the essential data needed to represent what happened. Define your upcasting pattern early in the project to handle schema evolution gracefully. Events should be treated as immutable facts about what happened, not as carriers for complex domain objects.
 
@@ -75,7 +75,7 @@ When you include too much information or entire domain models in your events, yo
 
 The tooling ecosystem for event sourcing isn't as mature as traditional CRUD systems in some languages and frameworks:
 
-> "If you're going to use event sourcing, investing in a tool or technology ecosystem that's really strong, really experienced in it, and can help you shortcut a lot of the implementation, could help you."
+> "If you're going to use event sourcing, investing in a tool or technology ecosystem that's really strong, really experienced in it, and can help you shortcut a lot of the implementation, could help you." -- Ted
 
 **Solution**: Carefully evaluate the available libraries and tools for your specific technology stack. Don't reinvent the wheel if good options exist, but be prepared to invest time in understanding their limitations and best practices.
 
@@ -83,7 +83,7 @@ The tooling ecosystem for event sourcing isn't as mature as traditional CRUD sys
 
 For teams unfamiliar with event sourcing, there's a significant learning curve:
 
-> "For people who've not ever done it, it takes time to teach them to do it. If they've never experienced anything like it before, it can be quite a mental leap."
+> "For people who've not ever done it, it takes time to teach them to do it. If they've never experienced anything like it before, it can be quite a mental leap." -- Ted
 
 **Solution**: Invest in upfront learning and knowledge sharing. Have your team spend time studying event sourcing patterns, watching presentations, and reading articles before making key design decisions. This initial investment pays off by preventing costly mistakes later.
 

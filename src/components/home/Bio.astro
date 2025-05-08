@@ -1,9 +1,15 @@
 ---
 import Pill from '../Pill.astro';
 import SocialLink from '../SocialLink.astro';
+
+interface Props {
+  class?: string
+}
+
+const { class: cls } = Astro.props
 ---
 
-<section class="flex flex-col md:flex-row justify-around items-center">
+<section class={"flex flex-col md:flex-row justify-around items-center " + cls}>
   <img
     class="rounded-lg overflow-hidden border-4 border-gray-700 shadow-lg max-w-full h-60"
     src="images/aaron.jpeg"

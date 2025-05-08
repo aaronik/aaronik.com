@@ -7,7 +7,7 @@ const navItems = [
 ];
 ---
 
-<nav class="flex flex-wrap items-center gap-4 p-3 justify-between sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md font-mono rounded-b-xl">
+<nav class="flex flex-wrap items-center gap-4 p-3 mb-14 justify-between sticky top-0 z-50 bg-[var(--color-surface)]/80 backdrop-blur-md font-mono rounded-b-xl">
     <a class="no-underline" href="/">
         <Logo />
     </a>
@@ -16,7 +16,7 @@ const navItems = [
             <ul class="flex flex-wrap gap-x-4 gap-y-1">
                 {navItems.map((item) => (
                     <li class="list-none">
-                        <a href={item.href} class="inline-block no-underline p-3 bg-gray-800 rounded-lg shadow-lg">
+                        <a href={item.href} class="inline-block no-underline p-3 bg-[var(--color-primary)]/80 rounded-lg shadow-lg">
                             {item.linkText}
                         </a>
                     </li>
@@ -45,7 +45,7 @@ const navItems = [
         bottom: -2px;
         width: 100%;
         height: 2px;
-        background: linear-gradient(to right, #00ffcc, #00ccff);
+        background: var(--color-accent);
         transform: scaleX(0);
         transition: transform 0.3s cubic-bezier(0, 0, 0, 1.07); /* great tool to make this in chrome dev tools */
     }

@@ -13,7 +13,7 @@ interface Props {
 const { title, imgSrc, href, description, rating, reason } = Astro.props;
 ---
 
-<li class="rounded-md overflow-hidden hover:brightness-125 max-w-sm bg-gray-800 shadow-lg list-none transition-all duration-100">
+<li class="rounded-md overflow-hidden hover:brightness-125 max-w-sm bg-[var(--color-surface)] shadow-lg list-none transition-all duration-100">
     <a href={href} target="_blank" class="block no-underline p-5">
         <h3 class="text-lg font-semibold mb-2 text-white p-1">{title}</h3>
         <CoolMeter class="p-1" rating={rating} description={reason} />

@@ -2,17 +2,25 @@
 
 @theme {
     --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --color-primary: #f67280;
-    --color-primary-content: #101828;
-    --color-complementary: #355c7d;
-    --color-accent: #77ffff;
-    --background-image-noise: linear-gradient(
-            to bottom,
+
+  --color-primary: #667080;            /* muted slate blue */
+  --color-primary-content: #e1e4e8;    /* light soft gray for contrast */
+  --color-complementary: #3a5068;      /* dark muted blue */
+  --color-accent: #5ac8c8;             /* muted teal */
+  --color-background-code: #1e2228;    /* very dark slate */
+
+  /* Additional muted and minimal dark colors */
+  --color-background: #121619;         /* almost black background */
+  --color-surface: #222831;            /* slightly lighter surface */
+  --color-object: var(--color-gray-800); /* what can be on the surface */
+  --color-border: #2f3640;             /* subtle dark border */
+  --color-muted-text: #8a939b;         /* muted gray text */
+  --color-subtle-shadow: rgba(0,0,0,0.4); /* subtle shadow for depth */
+
+    --background-image-noise: linear-gradient(to bottom,
             color-mix(in oklab, var(--color-gray-950) 0%, transparent),
-            color-mix(in oklab, var(--color-gray-950) 100%, transparent)
-        ),
+            color-mix(in oklab, var(--color-gray-950) 100%, transparent)),
         url('/images/noise.png');
-    --code-background: #24292e;
 }
 
 @layer base {
@@ -28,7 +36,7 @@
         @apply p-6 overflow-x-auto rounded-lg;
     }
 
-    :not(pre) > code {
+    :not(pre)>code {
         @apply px-1 py-0.5 font-mono rounded bg-gray-900 text-primary;
         font-size: 0.9em;
     }
@@ -36,7 +44,7 @@
 
 @layer components {
     .markdown {
-        > * {
+        >* {
             @apply my-6;
         }
 
