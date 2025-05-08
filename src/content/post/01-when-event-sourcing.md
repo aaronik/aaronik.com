@@ -87,15 +87,35 @@ Based on my team's experience with event sourcing in various projects, here are 
 
    **Solution**: Invest in upfront learning and knowledge sharing. Have your team spend time studying event sourcing patterns, watching presentations, and reading articles before making key design decisions. This initial investment pays off by preventing costly mistakes later.
 
-## Relationship with CQRS
+## What isn't Event Sourcing
 
-Event sourcing often goes hand-in-hand with Command Query Responsibility Segregation (CQRS), but they're distinct patterns. CQRS is about separating the components that handle write operations (commands) from those that handle read operations (queries).
+It's important to understand what event sourcing is not, to avoid common misconceptions.
 
-When combined with event sourcing, CQRS provides a clean architecture where:
-- Commands generate events that are stored in the event stream
-- Query models are built by projecting events into optimized read models
+### Event Sourcing vs. CQRS
 
-However, you can implement event sourcing without CQRS, and vice versa. They're complementary but independent patterns.
+**Command Query Responsibility Segregation (CQRS)** is often confused with event sourcing, but they're distinct patterns:
+
+- **CQRS** separates the components that handle write operations (commands) from those that handle read operations (queries). This creates two distinct data models: one optimized for writes and another for reads.
+
+- **Event Sourcing** is about storing state changes as a sequence of events, rather than just the current state.
+
+While they work well together (events from event sourcing can be used to build read models for CQRS), you can implement:
+- CQRS without event sourcing (using traditional databases for both command and query sides)
+- Event sourcing without CQRS (using the event log to rebuild state for both reads and writes)
+
+### Event Sourcing vs. Pub/Sub
+
+**Publish-Subscribe (Pub/Sub)** is another pattern that shouldn't be confused with event sourcing:
+
+- **Pub/Sub** is a messaging pattern where publishers send messages to topics without knowledge of subscribers. Subscribers receive messages from topics they're interested in. The primary goal is decoupling communication between components.
+
+- **Event Sourcing** uses events as the system of record. While events may be published to other systems, their primary purpose is to serve as the authoritative data store.
+
+Key differences:
+- In pub/sub, messages are typically transient and can be lost once processed
+- In event sourcing, events are permanent and form the source of truth
+- Pub/sub focuses on real-time communication; event sourcing focuses on state reconstruction
+- You can use pub/sub to distribute events from an event-sourced system, but pub/sub alone doesn't constitute event sourcing
 
 ## Side-by-Side Comparison: Traditional State vs. Event Sourcing
 
