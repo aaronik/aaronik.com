@@ -13,7 +13,7 @@ export default defineConfig({
     adapter: netlify(),
     // TODO It's probably either this or CNAME
     site: 'https://blog.aaronik.com',
-    markdown: {
-        remarkPlugins: [remarkMermaid],
-    },
+    // markdown: {
+    //     remarkPlugins: [remarkMermaid],
+    // },
 });

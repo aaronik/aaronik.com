@@ -121,31 +121,7 @@ When all new events have upcasters registered, the library can manage finding pa
 
 ### Recap
 
-```mermaid
-flowchart LR
-    Projector --> Aggregate["Aggregate (current state)"]
-    style Projector fill:#ff6f00,stroke:#ef6c00,stroke-width:2px
-    style Aggregate fill:#880e4f,stroke:#f48fb1,stroke-width:2px
-
-    %% Subgraph styled with Database shape by using a DB-shaped dummy node
-    subgraph Database
-        Event1
-        Event2
-        Event3
-    end
-
-    Event1 --> Projector
-    Event2 --> Projector
-    Event3 --> Projector
-
-    style Database fill:#0d47a1,stroke:#0b2d5a,stroke-width:3px
-    style Event1 fill:#a5d6a7,stroke:#256029
-    style Event2 fill:#a5d6a7,stroke:#256029
-    style Event3 fill:#a5d6a7,stroke:#256029
-    style Event1 stroke-width:1.5px
-    style Event2 stroke-width:1.5px
-    style Event3 stroke-width:1.5px
-```
+![Mermaid](/mermaids/event_source_1.mermaid)
 
 * The **Database** holds all the serialized **events**
 * The **Projector** (aka Aggregator, EventHandler, Accumulator) accumulates all the events together to ultimately form the Aggregate
@@ -360,3 +336,4 @@ For new projects, especially those with complex event evolution or many event ve
 For existing projects with stable or few event versions, introducing a version field partway through may add complexity and is usually not necessary.
 
 ---
+
