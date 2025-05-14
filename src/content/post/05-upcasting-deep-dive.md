@@ -119,17 +119,6 @@ When all new events have upcasters registered, the library can manage finding pa
 
 ---
 
-### Recap
-
-![Mermaid](/mermaids/event_source_1.mermaid)
-
-* The **Database** holds all the serialized **events**
-* The **Projector** (aka Aggregator, EventHandler, Accumulator) accumulates all the events together to ultimately form the Aggregate
-* The **Aggregate** is the final state of your application - that which has been computed from the event stream
-
-
----
-
 ### Keeping a Unified Export for AccountCredited
 
 As your event versions grow, it can become confusing to keep track of which version to use throughout your codebase. To simplify this, maintain a single export name `AccountCredited` that always points to the highest version of the event model in one central location.
