@@ -36,6 +36,8 @@ Use event sourcing when any of the following apply:
 
    Event sourcing requires managing event storage, snapshots (for performance in rebuilding state), event versioning, and eventual consistency issues. If your team and infrastructure are ready for this complexity, event sourcing can pay off. If not, the operational overhead might outweigh the benefits.
 
+---
+
 ## What is Event Sourcing?
 
 Event Sourcing is a data storage pattern. **Instead of storing only the current state, it records every individual change as an event.** These events, when combined, represent the current state. The current state can be reconstructed by processing all recorded events.
@@ -56,11 +58,34 @@ Your current balance ($25) is derived from all these events. Instead of just upd
 
 This approach allows you to reconstruct history, audit changes, and build new features like temporal queries or event-driven integrations.
 
+### Core Components
+
+Event sourcing consists of several core components that together form the full architecture pattern:
+
+1. **Application Write Interface (Command Side)**
+   - This is how your application accepts commands that intend to change state.
+   - Commands are validated and converted into events.
+
+2. **Event Store (Database)**
+   - The authoritative storage for all events.
+   - Events are persisted immutably in an append-only log.
+   - Acts as the source of truth for the system state.
+
+3. **Projector (Event Handler, Aggregator, or Read Model Builder)**
+   - Is given event streams from the event store
+   - Transforms event streams into Aggregates
+   - This is what computes the current state from the event streams
+
+4. **Aggregate (Domain Entity)**
+   - The actual, computed state of your system.
+   - The aggregate state is reconstructed by replaying events.
+
+5. **Application Read Interface (Query Side)**
+   - Provides the means to query the current state from read models built by projectors.
+
 ---
 
-## Key Differences
-
-Between event sourcing and traditional storage
+## Key Differences b/t Event Sourcing and Traditional Storage
 
 | Aspect                 | Traditional State Storage     | Event Sourcing                    |
 |------------------------|-------------------------------|---------------------------------|

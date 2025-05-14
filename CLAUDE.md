@@ -28,5 +28,4 @@ an event sourced pattern. All articles should share common themes:
 
 ## TODO
 
-* Talk about what the projector is at the top
 * Mention, towards the beginning, about serializing and deserializing
