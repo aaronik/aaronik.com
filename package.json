@@ -24,8 +24,11 @@
     "blobshape": "^1.0.0",
     "marked": "^13.0.0",
     "marked-shiki": "^1.2.0",
+    "playwright": "^1.52.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rehype-mermaid": "^3.0.0",
+    "remark-mermaidjs": "^7.0.0",
     "tailwindcss": "^4.0.14",
     "typescript": "^5.8.3",
     "unique-names-generator": "^4.7.1"

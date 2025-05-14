@@ -28,5 +28,5 @@ an event sourced pattern. All articles should share common themes:
 
 ## TODO
 
-* We're currently working on ./src/content/post/05-upcasting-deep-dive.md. This is our work in progress.
-* I'd like to add a section to the end called Refactor with Confidence. This section is about periodically extracting sample event streams from your database, hardcoding them into a fixture file, then running a projector function over them to ensure there are no errors.
+* Talk about what the projector is at the top
+* Mention, towards the beginning, about serializing and deserializing

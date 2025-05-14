@@ -119,6 +119,41 @@ When all new events have upcasters registered, the library can manage finding pa
 
 ---
 
+### Recap
+
+```mermaid
+flowchart LR
+    Projector --> Aggregate["Aggregate (current state)"]
+    style Projector fill:#ff6f00,stroke:#ef6c00,stroke-width:2px
+    style Aggregate fill:#880e4f,stroke:#f48fb1,stroke-width:2px
+
+    %% Subgraph styled with Database shape by using a DB-shaped dummy node
+    subgraph Database
+        Event1
+        Event2
+        Event3
+    end
+
+    Event1 --> Projector
+    Event2 --> Projector
+    Event3 --> Projector
+
+    style Database fill:#0d47a1,stroke:#0b2d5a,stroke-width:3px
+    style Event1 fill:#a5d6a7,stroke:#256029
+    style Event2 fill:#a5d6a7,stroke:#256029
+    style Event3 fill:#a5d6a7,stroke:#256029
+    style Event1 stroke-width:1.5px
+    style Event2 stroke-width:1.5px
+    style Event3 stroke-width:1.5px
+```
+
+* The **Database** holds all the serialized **events**
+* The **Projector** (aka Aggregator, EventHandler, Accumulator) accumulates all the events together to ultimately form the Aggregate
+* The **Aggregate** is the final state of your application - that which has been computed from the event stream
+
+
+---
+
 ### Keeping a Unified Export for AccountCredited
 
 As your event versions grow, it can become confusing to keep track of which version to use throughout your codebase. To simplify this, maintain a single export name `AccountCredited` that always points to the highest version of the event model in one central location.
@@ -148,7 +183,7 @@ This pattern helps maintain clean, scalable event schemas as your system evolves
 
 ## What Not To Do
 
-### Putting Domain Models in Your Events
+### Don't: Put Domain Models in Your Events
 
 It's tempting to embed rich domain models directly inside your events. For example:
 
@@ -211,3 +246,117 @@ class BankAccountOwnerNameUpdated(BaseModel):
 This way, your events only describe the specific state changes without embedding the full domain model.
 
 This decouples your API and domain model from the event stream format, making evolution easier by reducing the number of upcasters and old versioned events.
+
+---
+
+## Refactor with Confidence
+
+A valuable practice to ensure reliability when refactoring or evolving your event-sourced system is to periodically extract a representative sample of event streams from your production database.
+
+These extracted streams are then hardcoded as fixture files within your test suite.
+
+By running your projector functions over these fixtures, you can guarantee that the event upcasting and state reconstruction logic continues to work correctly across event versions.
+
+This approach allows you to catch any breaking changes early during development, giving you the confidence to refactor event models and upcasters safely.
+
+### Example Process
+
+1. Extract real event streams covering a variety of scenarios from your database.
+2. Serialize and save these event streams as JSON or Python fixtures in your test directory.
+3. Write tests that load these fixtures and run your projector(s) to build aggregates.
+4. Assert the expected state or simply assert no exceptions occur.
+
+This testing strategy leverages the immutable nature of event sourcing and helps ensure the robustness of your event evolution and upcasting strategies.
+
+### Example Code
+
+```python
+import pytest
+from events import AccountCredited
+
+# Suppose this is your projector function that rehydrates an aggregate
+# from a list of events.
+def project_account(events):
+    state = {"balance": 0, "currency": "USD", "notes": ""}
+    for event_dict in events:
+        # Here you would parse the event dict and apply upcasting as needed
+        event = AccountCredited.parse_obj(event_dict)
+        # Simplified projector logic for example
+        if hasattr(event, "amount"):
+            state["balance"] += event.amount
+        if hasattr(event, "currency"):
+            state["currency"] = event.currency
+        if hasattr(event, "transaction_notes"):
+            state["notes"] = event.transaction_notes
+    return state
+
+# Hardcoded fixture representing a sample event stream extracted from prod
+sample_event_stream = [
+    {"account_id": "123", "amount": 100.0},  # Old version event
+    {"account_id": "123", "amount": 50.0, "currency": "USD"},  # V2 event
+    {"account_id": "123", "amount": 25.0, "currency": "USD", "transaction_notes": "Deposit"}  # V3 event
+]
+
+
+def test_project_account():
+    state = project_account(sample_event_stream)
+    assert state["balance"] == 175.0
+    assert state["currency"] == "USD"
+    assert state["notes"] == "Deposit"
+```
+
+This example shows how you can hardcode a sample event stream covering multiple event versions and run your projector function on it as a test to catch any failures in event parsing or logic.
+
+---
+
+## Event Version Field on Events
+
+One approach to help your projector correctly identify and handle different versions of events is to include an explicit version field in each event object.
+
+### What It Looks Like
+
+You declare a constant version attribute within each event version class, for example:
+
+```python
+from pydantic import BaseModel, Field
+
+class AccountCreditedV1(BaseModel):
+    version: int = Field(1, const=True)
+    account_id: str
+    amount: float
+
+class AccountCreditedV2(BaseModel):
+    version: int = Field(2, const=True)
+    account_id: str
+    amount: float
+    currency: str
+
+class AccountCreditedV3(BaseModel):
+    version: int = Field(3, const=True)
+    account_id: str
+    amount: float
+    currency: str
+    transaction_notes: str
+```
+
+When serialized to JSON, these events carry their version number.
+
+### Benefits
+
+- **Simplifies projector logic:** The projector can easily inspect the version field to decide how to parse or upcast the event.
+- **Self-describing events:** Each event carries its schema version explicitly, which aids debugging, monitoring, and auditing.
+- **Explicitness in evolution:** It forces event authors to think about versioning and schema changes clearly.
+
+### Drawbacks
+
+- **Slightly more verbosity:** You add a version field to each event, increasing event data size minimally.
+- **Schema coupling:** You must remember to bump the version field on every schema change, which adds developer overhead.
+- **Possible duplication:** If you also rely on external metadata for event versions (e.g., stored in DB or event store), this might duplicate information.
+
+### Recommendation
+
+For new projects, especially those with complex event evolution or many event versions, including an explicit version field on your events is a good idea. It reduces ambiguity and makes your projector logic more robust.
+
+For existing projects with stable or few event versions, introducing a version field partway through may add complexity and is usually not necessary.
+
+---
