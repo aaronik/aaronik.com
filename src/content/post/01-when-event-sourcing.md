@@ -29,59 +29,104 @@ This approach allows you to reconstruct history, audit changes, and build new fe
 
 ## When to use Event Sourcing
 
-Event sourcing is not a silver bullet. It comes with complexity and operational overhead. So, when is using it the right choice?
+When:
+
+---
 
 1. **Your Domain Benefits from Auditability and History**
 
    If you need a complete, immutable audit trail of every change - for example, in financial systems, compliance-heavy domains, or regulated industries - event sourcing shines. Each event represents a domain fact that can be audited, making it easier to track down how and why your system reached its current state.
 
-2. **Complex Business Logic and Domain Behaviors**
+---
+
+2. **You have Complex Business Logic and Domain Behaviors**
 
    When your domain involves complex business rules that change over time or require rollback capabilities, event sourcing helps. You can replay event streams to debug, troubleshoot, or regenerate the current state after code changes.
+
+---
 
 3. **You Need Temporal Queries and State Recreation**
 
    Event sourcing lets you query "what was the state at time T?" or "how did a particular change happen?" This capability is very hard to support in a traditional CRUD database schema.
 
+---
+
 4. **Integration via Event-Driven Architecture**
 
    Event sourcing naturally fits with event-driven architectures, where different subsystems react asynchronously to events. If your system is made of multiple components that need to stay loosely coupled and react independently to changes, event sourcing gives you a clean foundation.
+
+---
 
 5. **You Can Handle Increased Complexity in Infrastructure**
 
    Event sourcing requires managing event storage, snapshots (for performance in rebuilding state), event versioning, and eventual consistency issues. If your team and infrastructure are ready for this complexity, event sourcing can pay off. If not, the operational overhead might outweigh the benefits.
 
+---
+
+## Key Differences Highlighted
+
+Let's examine what makes event sourcing fundamentally different from traditional state storage:
+
+| Aspect | Traditional State Storage | Event Sourcing |
+|--------|---------------------------|----------------|
+| **What's stored** | Current state only | Complete history of events |
+| **State mutations** | Direct, overwrites previous state | Append-only events that build state |
+| **History** | Lost unless explicitly tracked | Inherently preserved |
+| **Temporal queries** | Generally not possible | Natural capability |
+| **Debugging** | Current state only | Can replay to see how state evolved |
+| **Storage requirements** | Generally lower | Higher (stores all events and any snapshots) |
+| **Complexity** | Simpler to implement | More complex infrastructure |
+
+### When the Traditional Approach Works Well
+
+The traditional state-based approach works well when:
+
+1. **Current state is all that matters** - You don't need historical data or audit trails
+2. **Simple domain** - Business rules are straightforward and unlikely to change
+3. **Resource constraints** - You have limited storage or processing power
+4. **Team familiarity** - Your team is more experienced with traditional CRUD patterns
+
+### When Event Sourcing Shines
+
+Event sourcing becomes advantageous when:
+
+1. **History and auditability matter** - Complete history provides value (financial, regulatory, etc.)
+2. **Complex business rules** - Rules evolve over time and need to be applied retroactively
+3. **Temporal queries needed** - "What was the state at time X?" is a requirement
+4. **Integration requirements** - Events can be published to other systems for downstream processing
+5. **Debugging complexity** - Being able to replay events helps troubleshoot issues
+
 ## Common Pitfalls and How to Avoid Them
 
 Based on my team's experience with event sourcing in various projects, here are some common pitfalls we've fallen into, and how to potentially avoid them:
 
-1. **Inappropriate Domain Modeling**
+### Inappropriate Domain Modeling
 
-   One of the biggest challenges with event sourcing is transitioning from the traditional way of thinking about data (tables, fields, current state) to modeling processes as events. It's easy to make mistakes when you're first getting started:
+   **Problem**: One of the biggest challenges with event sourcing is transitioning from the traditional way of thinking about data (tables, fields, current state) to modeling processes as events. It's easy to make mistakes when you're first getting started:
 
    > "Modeling your process and system as events is not something people are used to. And it's fundamental. If you don't know what your events are or how to model them, you're going to run into a lot of problems." -- Kurtis
 
    **Solution**: Before writing any code, invest time in brain storming sessions with your team and business stakeholders. Event storming is a workshop-based approach where you map out the domain events on a whiteboard to understand the flow of events in your system. This helps everyone think in terms of "what happens" rather than "what state do we store."
 
-2. **Complex Event Schemas and Upcasting Challenges**
+### Complex Event Schemas and Upcasting Challenges
 
-   When you include too much information or entire domain models in your events, you'll face painful upcasting issues whenever those models change:
+   **Problem**: When you include too much information or entire domain models in your events, you'll face painful upcasting issues whenever those models change:
 
    > "We put a bunch of our domain models in the events. And that ended up burning us big time down the road. We had to upcast every time we changed one of these different models, which happened all the time." -- Sully
 
    **Solution**: Keep events minimal, containing only the essential data needed to represent what happened. Define your upcasting pattern early in the project to handle schema evolution gracefully. Events should be treated as immutable facts about what happened, not as carriers for complex domain objects.
 
-3. **Tooling and Infrastructure Maturity**
+### Tooling and Infrastructure Maturity
 
-   The tooling ecosystem for event sourcing isn't as mature as traditional CRUD systems in some languages and frameworks:
+   **Problem**: The tooling ecosystem for event sourcing isn't as mature as traditional CRUD systems in some languages and frameworks:
 
    > "If you're going to use event sourcing, investing in a tool or technology ecosystem that's really strong, really experienced in it, and can help you shortcut a lot of the implementation, could help you." -- Ted
 
    **Solution**: Carefully evaluate the available libraries and tools for your specific technology stack. Don't reinvent the wheel if good options exist, but be prepared to invest time in understanding their limitations and best practices.
 
-4. **Knowledge Gap and Learning Curve**
+### Knowledge Gap and Learning Curve
 
-   For teams unfamiliar with event sourcing, there's a significant learning curve:
+   **Problem**: For teams unfamiliar with event sourcing, there's a significant learning curve:
 
    > "For people who've not ever done it, it takes time to teach them to do it. If they've never experienced anything like it before, it can be quite a mental leap." -- Ted
 
@@ -203,39 +248,6 @@ if __name__ == "__main__":
 
 Every state-changing method is decorated with `@event`, which means the state transitions are recorded as events. The library can replay these events to rebuild the aggregate state at any time.
 
-#### Key Differences Highlighted
-
-Let's examine what makes these approaches fundamentally different:
-
-| Aspect | Traditional State Storage | Event Sourcing |
-|--------|---------------------------|----------------|
-| **What's stored** | Current state only | Complete history of events |
-| **State mutations** | Direct, overwrites previous state | Append-only events that build state |
-| **History** | Lost unless explicitly tracked | Inherently preserved |
-| **Temporal queries** | Generally not possible | Natural capability |
-| **Debugging** | Current state only | Can replay to see how state evolved |
-| **Storage requirements** | Generally lower | Higher (stores all events and any snapshots) |
-| **Complexity** | Simpler to implement | More complex infrastructure |
-
-#### When the Traditional Approach Works Well
-
-The traditional state-based approach works well when:
-
-1. **Current state is all that matters** - You don't need historical data or audit trails
-2. **Simple domain** - Business rules are straightforward and unlikely to change
-3. **Resource constraints** - You have limited storage or processing power
-4. **Team familiarity** - Your team is more experienced with traditional CRUD patterns
-
-#### When Event Sourcing Shines
-
-Event sourcing becomes advantageous when:
-
-1. **History and auditability matter** - Complete history provides value (financial, regulatory, etc.)
-2. **Complex business rules** - Rules evolve over time and need to be applied retroactively
-3. **Temporal queries needed** - "What was the state at time X?" is a requirement
-4. **Integration requirements** - Events can be published to other systems for downstream processing
-5. **Debugging complexity** - Being able to replay events helps troubleshoot issues
-
 ## Evolving Requirements Example
 
 Let's see how these approaches handle evolving requirements - a common scenario in software development. Imagine a new business requirement: "We need to track the transaction date and description for each deposit and withdrawal."
@@ -347,6 +359,9 @@ def upcast_deposit_event(old_event):
 This upcasting step is usually necessary whenever you evolve your event schema, although in our case it isn't necessary because all of our event parameters have default values.
 
 While upcasting adds some complexity, it allows you to maintain all your historical data while still evolving your domain model - a key benefit of event sourcing that traditional approaches can't match.
+
+I have [a deep dive on upcasting](/post/05-upcasting-deep-dive) as well, if you'd like to go into more detail about this aspect of event sourcing.
+
 
 ## Summary
 

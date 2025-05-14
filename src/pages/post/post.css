@@ -133,4 +133,9 @@ main {
         box-shadow: inset 0 0 10px var(--color-subtle-shadow);
     }
 
+    a {
+        color: var(--link-color);
+        text-decoration: underline; /* standard underline */
+        cursor: pointer; /* pointer cursor for links */
+    }
 }
