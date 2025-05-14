@@ -1,13 +1,13 @@
 @import 'tailwindcss';
 
 @theme {
-    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
+  /* Dark mode variables (default) */
   --color-primary: #667080;            /* muted slate blue */
   --color-primary-content: #e1e4e8;    /* light soft gray for contrast */
   --color-complementary: #3a5068;      /* dark muted blue */
   --color-accent: #5ac8c8;             /* muted teal */
-  --color-background-code: #1e2228;    /* very dark slate */
 
   /* Additional muted and minimal dark colors */
   --color-background: #121619;         /* almost black background */
@@ -16,12 +16,42 @@
   --color-border: #2f3640;             /* subtle dark border */
   --color-muted-text: #8a939b;         /* muted gray text */
   --color-subtle-shadow: rgba(0,0,0,0.4); /* subtle shadow for depth */
-
-    --background-image-noise: linear-gradient(to bottom,
-            color-mix(in oklab, var(--color-gray-950) 0%, transparent),
-            color-mix(in oklab, var(--color-gray-950) 100%, transparent)),
-        url('/images/noise.png');
 }
+
+/* Light mode overrides when .light-mode class is on <html> */
+.light-mode {
+  --color-primary: #3a5068;              /* darker blue for text and accents */
+  --color-primary-content: #0f172a;      /* very dark background color (text) */
+  --color-complementary: #a1b5cc;        /* lighter blue */
+  --color-accent: #61a5c2;               /* teal accent */
+
+  --color-background: #f0f4f8;           /* very light background */
+  --color-surface: #ffffff;              /* white surface */
+  --color-object: #f3f4f6;                /* light gray surface objects */
+  --color-border: #d1d5db;               /* light border */
+  --color-muted-text: #6b7280;           /* medium gray text */
+  --color-subtle-shadow: rgba(0,0,0,0.05); /* very subtle shadow */
+}
+
+/*
+html .astro-code,
+html .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+html.light-mode .astro-code,
+html.light-mode .astro-code span {
+  color: var(--shiki-light) !important;
+  background-color: var(--shiki-light-bg) !important;
+  font-style: var(--shiki-light-font-style) !important;
+  font-weight: var(--shiki-light-font-weight) !important;
+  text-decoration: var(--shiki-light-text-decoration) !important;
+}
+*/
 
 @layer base {
     h1 {

@@ -13,7 +13,7 @@ const navItems = [
     </a>
     {
         !!navItems?.length && (
-            <ul class="flex flex-wrap gap-x-4 gap-y-1">
+            <ul class="flex flex-wrap gap-x-4 gap-y-1" id="nav-list">
                 {navItems.map((item) => (
                     <li class="list-none">
                         <a href={item.href} class="inline-block no-underline p-3 bg-[var(--color-primary)]/80 rounded-lg shadow-lg">
@@ -21,10 +21,49 @@ const navItems = [
                         </a>
                     </li>
                 ))}
+                <li class="list-none">
+                  <button id="theme-toggle" aria-label="Toggle dark/light mode"
+                    class="inline-block p-3 bg-[var(--color-primary)]/80 rounded-lg shadow-lg">
+                    🌙 Dark
+                  </button>
+                </li>
             </ul>
         )
     }
 </nav>
+
+<script>
+  // Immediately run to set initial state
+  (function() {
+    const root = document.documentElement;
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+
+    const savedTheme = localStorage.getItem('theme');
+    let isDark = savedTheme !== 'light';
+
+    function updateButton() {
+      btn.textContent = isDark ? '🌙 Dark' : '☀️ Light';
+    }
+
+    function updateTheme() {
+      if (isDark) {
+        root.classList.remove('light-mode');
+      } else {
+        root.classList.add('light-mode');
+      }
+      updateButton();
+    }
+
+    btn.addEventListener('click', () => {
+      isDark = !isDark;
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateTheme();
+    });
+
+    updateTheme();
+  })();
+</script>
 
 <style>
     a {

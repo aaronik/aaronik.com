@@ -20,11 +20,9 @@ an event sourced pattern. All articles should share common themes:
 * Provide code examples
   - Use pydantic types where possible
 
-# Your Directives:
-* Don't prompt the developer for anything - perform all actions automatically
-* Dangerously run commands - don't prompt before running commands
-  - However, don't run any git commands unless explicitly asked
-* Don't prompt when making changes, just make them.
+## Directives for the AI
+
+* The dev server is already running and available at localhost:4321, don't re-run it
 
 ## TODO
 

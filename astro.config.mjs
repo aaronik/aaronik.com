@@ -11,9 +11,17 @@ export default defineConfig({
     },
     integrations: [react()],
     adapter: netlify(),
+
     // TODO It's probably either this or CNAME
     site: 'https://blog.aaronik.com',
-    // markdown: {
-    //     remarkPlugins: [remarkMermaid],
-    // },
+    markdown: {
+        // remarkPlugins: [remarkMermaid],
+        syntaxHighlight: 'shiki',
+        shikiConfig: {
+          themes: {
+            dark: 'github-dark',
+            light: 'github-light',
+          },
+        },
+    },
 });
