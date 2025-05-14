@@ -4,9 +4,9 @@ pageTitle: "aaronik | event sourcing"
 title: "When Is It Right to Use Event Sourcing?"
 slug: "01-when-event-sourcing"
 imgSrc: "images/custom-event-sourcing.svg"
-description: "When is it right, and when is it wrong, to use an Event Sourcing data pattern, with examples in python"
+description: "The first article in a short series on Event Sourcing. When is it right, and when is it wrong, to use an Event Sourcing storage pattern, with examples in python"
 date: "May 7 2025"
-authors: ["Aaron Sullivan", "Your Name???"]
+authors: ["Aaron Sullivan"]
 draft: false
 ---
 

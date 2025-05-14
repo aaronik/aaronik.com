@@ -4,7 +4,7 @@ pageTitle: "aaronik | upcasting"
 title: "What is Upcasting? A Deep Dive"
 slug: "05-upcasting-deep-dive"
 imgSrc: "images/custom-event-sourcing.svg"
-description: "An in depth look at upcasting"
+description: "Another article in the series on Event Sourcing: An in depth look at upcasting"
 date: "May 8 2025"
 authors: ["Aaron Sullivan"]
 draft: false
@@ -180,12 +180,11 @@ class BankAccountV2(BaseModel):
     opened_date: str
     phone_number: str  # <-- new field
 
-# New event version embedding the updated domain model
+# Now we need a new event version embedding the updated domain model
 class BankAccountUpdatedV2(BaseModel):
     bank_account: BankAccountV2
 
-# Upcaster to migrate old events to new version
-
+# And a new upcasting function as well
 def bank_account_updated_v1_to_v2(event: BankAccountUpdated) -> BankAccountUpdatedV2:
     return BankAccountUpdatedV2(
         bank_account=BankAccountV2(
@@ -193,7 +192,7 @@ def bank_account_updated_v1_to_v2(event: BankAccountUpdated) -> BankAccountUpdat
             balance=event.bank_account.balance,
             owner_name=event.bank_account.owner_name,
             opened_date=event.bank_account.opened_date,
-            phone_number=""  # default for old events that lack this field
+            phone_number=""
         )
     )
 ```
@@ -255,11 +254,11 @@ def project_account(events):
             state["notes"] = event.transaction_notes
     return state
 
-# Hardcoded fixture representing a sample event stream extracted from prod
+# Hardcoded fixture representing a sample event stream extracted from well used test env
 sample_event_stream = [
     {"account_id": "123", "amount": 100.0},  # Old version event
-    {"account_id": "123", "amount": 50.0, "currency": "USD"},  # V2 event
-    {"account_id": "123", "amount": 25.0, "currency": "USD", "transaction_notes": "Deposit"}  # V3 event
+    {"account_id": "123", "amount": 50.0, "currency": "USD"},  # V2
+    {"account_id": "123", "amount": 25.0, "currency": "USD", "transaction_notes": "Deposit"}  # V3
 ]
 
 
@@ -270,7 +269,7 @@ def test_project_account():
     assert state["notes"] == "Deposit"
 ```
 
-This example shows how you can hardcode a sample event stream covering multiple event versions and run your projector function on it as a test to catch any failures in event parsing or logic.
+This example shows how you can hardcode a sample event stream covering multiple event versions and run your projector function on it as a test to catch any situations whereby someone might have forgotten to write an upcast for an event, being fooled into feeling safe because they aren't testing against old events in their shiny test database.
 
 ---
 
