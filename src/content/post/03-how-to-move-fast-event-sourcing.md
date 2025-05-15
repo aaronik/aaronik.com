@@ -2,7 +2,7 @@
 layout: "../../layouts/PostLayout.astro"
 pageTitle: "aaronik | event sourcing"
 title: "How to Iterate Quickly while using Event Sourcing"
-slug: "02-how-to-move-fast-event-sourcing"
+slug: "03-how-to-move-fast-event-sourcing"
 imgSrc: "images/event-sourcing.png"
 description: "How to iterate quickly while using Event Sourcing"
 date: "May 2 2025"

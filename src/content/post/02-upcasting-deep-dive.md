@@ -2,7 +2,7 @@
 layout: "../../layouts/PostLayout.astro"
 pageTitle: "aaronik | upcasting"
 title: "Event Sourcing: What is Upcasting? A Deep Dive"
-slug: "05-upcasting-deep-dive"
+slug: "02-upcasting-deep-dive"
 imgSrc: "images/custom-event-sourcing.svg"
 description: "Another article in the series on Event Sourcing: An in depth look at upcasting"
 date: "May 8 2025"
@@ -10,11 +10,11 @@ authors: ["Aaron Sullivan"]
 draft: false
 ---
 
-When building event sourced systems, your event definitions will naturally evolve as requirements change. Upcasting is the technique you use to migrate old events into new versions without losing data or breaking the system.
+When building event sourced systems, your event definitions will naturally evolve as requirements change. Upcasting is the technique you use to turn the original events into the updated versions without mutating the data on disk.
 
-Let's walk through how a simple bank account event representing a state change matures and how upcasting helps manage its evolution using Pydantic for strong typing in Python.
+Here's an example of a simple bank account event representing a state change, and how upcasting helps manage its evolution as requirements change.
 
----
+## An Example From The Bank
 
 ### Stage 1: Initial Implementation
 
@@ -23,15 +23,13 @@ Initially, our bank account event represents a state change of crediting an amou
 ```python
 from pydantic import BaseModel
 
-# An event, representing a change in the state, not the state itself
+# An event, representing a change in the state, rather than the state itself
 class AccountCredited(BaseModel):
     account_id: str
     amount: float
 ```
 
-Imagine a controller received some json. Instead of computing the new state and saving that, we save the json itself. This is an event. Later we'll run through every event and construct the state.
-
----
+Imagine a controller received some json. Instead of computing the new state and saving that, we save the json itself. This is an event. At read time the app will run through every event to construct the state.
 
 ### Stage 2: New Requirements Emerge
 
@@ -49,8 +47,6 @@ instantiate an AccountCreditedV2 from the event stored in the database, which do
 have a `currency` field, our code will error out. The code has diverged from the data
 in the database. Normally we'd run a migration, but one of the best parts of event sourcing
 is its immutable event streams.
-
----
 
 ### Stage 3: Introducing Upcasting
 
@@ -85,8 +81,6 @@ def account_credited_v1_to_v2(event: AccountCredited) -> AccountCreditedV2:
 This is how the system can work with a database that has old and new events saved together,
 and that's how the event stream can be immutable.
 
----
-
 ### Stage 4: Further Evolution - AccountCreditedV3
 
 The requirements grow again. Now we want to add a `transaction_notes` field to capture any remarks about the credit event.
@@ -117,8 +111,6 @@ def account_credited_v2_to_v3(event: AccountCreditedV2) -> AccountCreditedV3:
 
 When all new events have upcasters registered, the library can manage finding paths from any old event to any new one, thus it can create the newest version of your Aggregate, in our case, AccountCreditedV3.
 
----
-
 ### Keeping a Unified Export for AccountCredited
 
 As your event versions grow, it can become confusing to keep track of which version to use throughout your codebase. To simplify this, maintain a single export name `AccountCredited` that always points to the highest version of the event model in one central location.
@@ -143,8 +135,6 @@ from events import AccountCredited
 ```
 
 This pattern helps maintain clean, scalable event schemas as your system evolves.
-
----
 
 ## What Not To Do
 
@@ -211,8 +201,6 @@ This way, your events only describe the specific state changes without embedding
 
 This decouples your API and domain model from the event stream format, making evolution easier by reducing the number of upcasters and old versioned events.
 
----
-
 ## Refactor with Confidence
 
 A valuable practice to ensure reliability when refactoring or evolving your event-sourced system is to periodically extract a representative sample of event streams from your production database.
@@ -271,8 +259,6 @@ def test_project_account():
 
 This example shows how you can hardcode a sample event stream covering multiple event versions and run your projector function on it as a test to catch any situations whereby someone might have forgotten to write an upcast for an event, being fooled into feeling safe because they aren't testing against old events in their shiny test database.
 
----
-
 ## Event Version Field on Events
 
 One approach to help your projector correctly identify and handle different versions of events is to include an explicit version field in each event object.
@@ -322,6 +308,4 @@ When serialized to JSON, these events carry their version number.
 For new projects, especially those with complex event evolution or many event versions, including an explicit version field on your events is a good idea. It reduces ambiguity and makes your projector logic more robust.
 
 For existing projects with stable or few event versions, introducing a version field partway through may add complexity and is usually not necessary.
-
----
 
