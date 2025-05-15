@@ -26,6 +26,18 @@ an event sourced pattern. All articles should share common themes:
 * Provide code examples
     - Use pydantic types where possible
 
-## TODO
+### Each blog entry should initially start with the following structure:
 
-* Mention, towards the beginning, about serializing and deserializing
+1. **Introduction / Motivation**
+2. **Terminology Clarification**
+3. **Real-World Scenarios / Use Cases**
+4. **Technical Deep Dive**
+5. **Performance Considerations**
+6. **Testing Strategies**
+7. **Common Pitfalls & How to Avoid Them**
+8. **Summary / Conclusion**
+9. **Further Reading / References**
+10. **FAQ**
+11. **Tools and Libraries**
+12. **Call to Action**
+

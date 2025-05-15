@@ -83,6 +83,12 @@ Event sourcing consists of several core components that together form the full a
 5. **Application Read Interface (Query Side)**
    - Provides the means to query the current state from read models built by projectors.
 
+Other important pieces of the puzzle include:
+
+* **Snapshotting**
+    - Caching the projected aggregate so that the application doesn't need to compute it the next time it's read.
+    - Caching always introduces some complexity, but the normal advantage is realized: Application speed improves.
+
 ---
 
 ## Key Differences b/t Event Sourcing and Traditional Storage

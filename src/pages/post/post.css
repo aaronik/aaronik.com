@@ -140,4 +140,8 @@ main {
         text-decoration: underline; /* standard underline */
         cursor: pointer; /* pointer cursor for links */
     }
+
+    pre {
+        margin: 1rem 0;
+    }
 }
