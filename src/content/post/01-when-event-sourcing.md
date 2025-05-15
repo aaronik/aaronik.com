@@ -1,7 +1,7 @@
 ---
 layout: "../../layouts/PostLayout.astro"
 pageTitle: "aaronik | event sourcing"
-title: "When Is It Right to Use Event Sourcing?"
+title: "Event Sourcing: When Is It Right to Use?"
 slug: "01-when-event-sourcing"
 imgSrc: "images/custom-event-sourcing.svg"
 description: "The first article in a short series on Event Sourcing. When is it right, and when is it wrong, to use an Event Sourcing storage pattern, with examples in python"

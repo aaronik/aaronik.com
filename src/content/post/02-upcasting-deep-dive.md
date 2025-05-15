@@ -1,7 +1,7 @@
 ---
 layout: "../../layouts/PostLayout.astro"
 pageTitle: "aaronik | upcasting"
-title: "What is Upcasting? A Deep Dive"
+title: "Event Sourcing: What is Upcasting? A Deep Dive"
 slug: "05-upcasting-deep-dive"
 imgSrc: "images/custom-event-sourcing.svg"
 description: "Another article in the series on Event Sourcing: An in depth look at upcasting"
