@@ -3,16 +3,14 @@ layout: "../../layouts/PostLayout.astro"
 pageTitle: "aaronik | event sourcing"
 title: "Using an Upcast Pattern with a Normal Database"
 slug: "03-upcasting-normal-db"
-imgSrc: "images/py-event-sourcing.jpg"
+imgSrc: "images/custom-event-sourcing.svg"
 description: "The benefits of upcasting, even with a non event sourced database"
 date: "May 2 2025"
 authors: ["Aaron Sullivan"]
-draft: true
+draft: false
 ---
 
 Event sourcing frameworks often rely on *upcasting* to handle the evolution of event schemas over time. Upcasting allows you to transform older versions of events into the latest format, enabling your application to work consistently with a single, up-to-date event structure without breaking when older events exist in the store. While this pattern originated within event sourcing contexts, the core idea can be adapted and applied to traditional databases as well.
-
-![Python Event Sourcing Library Diagram](/images/py-event-sourcing.jpg)
 
 ## What is Upcasting?
 
@@ -22,6 +20,8 @@ on-the-fly as they are read, bringing them to the current version expected by yo
 
 This means your code always works with the latest version of the event model, while the underlying persisted data can remain in its original form.
 Upcasting acts as a compatibility layer that upgrades data dynamically.
+
+For a more in depth read on upcasting, read [this deep dive on upcasting](/post/05-upcasting-deep-dive).
 
 ## Decoupling Migrations from Deployments
 
