@@ -10,7 +10,7 @@ authors: ["Aaron Sullivan"]
 draft: false
 ---
 
-**Read time upcasting** is the practice of transforming legacy data from the database at runtime. This is an expansion of [**upcasting**](/src/content/post/02-upcasting-deep-dive.md) from the [**event sourcing**](/src/content/post/01-when-event-sourcing.md) pattern, applied to non event sourced, traditional databases.
+**Read time upcasting** is the practice of transforming legacy data from the database at runtime. This is an expansion of [**upcasting**](/post/02-upcasting-deep-dive/) from the [**event sourcing**](/post/01-when-event-sourcing/) pattern, applied to non event sourced, traditional databases.
 
 ## Why?
 
@@ -257,5 +257,5 @@ Explicitly version your events and apply transformations (upcasting) when projec
 - Steeper learning curve for event sourced systems
 - Less suited for all types of databases or apps
 
-Read more about [event sourcing](/src/content/post/01-when-event-sourcing.md).
+Read more about [event sourcing](/post/01-when-event-sourcing/).
 
