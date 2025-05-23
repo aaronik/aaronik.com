@@ -36,8 +36,6 @@ Use event sourcing when any of the following apply:
 
     Event sourcing is a less familiar pattern, and there are initial stumbling blocks that can be costly down the road. Be sure to follow best practices from the get-go. Somebody experienced in event sourcing architecture keeping track of the implementation is highly recommended.
 
----
-
 ## What is Event Sourcing?
 
 Event Sourcing is a data storage pattern. **Instead of storing only the current state, it records every individual change as an event.** These events, when combined, represent the current state. The current state can be reconstructed by processing all recorded events.
@@ -96,8 +94,6 @@ Other important pieces of the puzzle include:
 
 * **Upcasting**
     - Since the event stream is immutable by design, old events need to still be recognized if they've been updated to a newer version. Upcasting is the process of converting old events to newer events at read time.
-
----
 
 ## Key Differences b/t Event Sourcing and Traditional Storage
 
@@ -291,7 +287,7 @@ The stakeholder wants more! They're excited about **adding features**. Some on t
 
 ### Fraud Detection System
 
-detect multiple withdrawals above $500 within a 24-hour period
+Detect multiple withdrawals above $500 within a 24-hour period.
 
 #### Traditional Approach:
 * Store timestamps in a new list
@@ -320,7 +316,7 @@ When frozen, no withdrawals are allowed, but deposits should still work.
 
 ### Interest Calculation
 
-calculate and apply monthly interest based on the average daily balance throughout the month.
+Calculate and apply monthly interest based on the average daily balance throughout the month.
 
 #### Traditional Approach
 
@@ -409,9 +405,6 @@ The class never fell into statefulness or anything, it just accumulated lots of 
 ## Best Practices
 
 * When designing events, model around verbs (actions), not nouns (entities).
-
-For example: instead having an object `car`,  with methods like `car.start()`, which populate state `car.started = true`, then saving `car.save()`, you drop events into the event stream, like `CarStarted(car_id)`. Then when someone needs to know how many running cars there are, they can count `CarStarted` events (minus `CarStopped` events?) or something.
-
 * Strongly consider using a CQRS pattern
 
 ## Summary
