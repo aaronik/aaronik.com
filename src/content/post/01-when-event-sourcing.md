@@ -201,13 +201,14 @@ print(account.name)  # Alice
 
 ```
 
-In this traditional approach, we store and update only the current state. Each operation directly mutates that state, and we have no built-in history of how we arrived at the current balance.
+In this traditional approach, we store and update the current state of the system. Each operation directly mutates the state.
 
 ### Event Sourcing Approach
 
 Now, here's the same domain implemented using event sourcing:
 
 ```py
+# Here for completeness
 from typing import Union
 from pydantic import BaseModel
 
@@ -260,7 +261,7 @@ def project_max_balance(event_stream: list[Event]) -> int:
 print(project_max_balance(event_stream)) # 100
 
 # QUESTION: What is the account object as if we had a traditional
-# storage mechanism
+# storage mechanism?
 class EventSourcedAccount:
     def __init__(self):
         self.name = ""
@@ -282,121 +283,70 @@ def project_account(event_stream: list[Event]) -> EventSourcedAccount:
 print(project_account(event_stream)) # EventSourcedAccount(name="Alice", balance="70")
 ```
 
-Every state-changing method is decorated with `@event`, which means the state transitions are recorded as events. The library can replay these events to rebuild the aggregate state at any time.
+The traditional approach was easy for us to cognize. The event sourcing approach, while maybe less familiar, got us more information.
 
-## Evolving Requirements Example
+## Side-by-Side Comparison: Evolving Requirements
 
-Let's see how these approaches handle evolving requirements - a common scenario in software development. Imagine a new business requirement: "We need to track the transaction date and description for each deposit and withdrawal."
+The stakeholder wants more! They're excited about **adding features**. Some on their list:
 
-### Traditional Approach - Adding a Transaction History
+### Fraud Detection System
 
-```py
-from datetime import datetime
+detect multiple withdrawals above $500 within a 24-hour period
 
-class EnhancedTraditionalAccount:
-    def __init__(self, name: str):
-        self.name = name
-        self.balance = 0
-        # Need to add a new data structure to track history
-        self.transactions = []  # This is new!
+#### Traditional Approach:
+* Store timestamps in a new list
+* Migrate DB to accommodate this list
+* On withdrawal, scan through list, return boolean
 
-    def deposit(self, amount: int, description: str = ""):
-        self.balance += amount
-        # Need to explicitly track transaction history
-        self.transactions.append({
-            "type": "deposit",
-            "amount": amount,
-            "description": description,
-            "date": datetime.now(),
-            "balance_after": self.balance
-        })
+#### Event Sourced:
+* Create new projection from existing data
+* Projection consists of the same logic as last step of trad approach
 
-    def withdraw(self, amount: int, description: str = ""):
-        if amount > self.balance:
-            raise ValueError("Insufficient funds")
-        self.balance -= amount
-        # Need to explicitly track transaction history
-        self.transactions.append({
-            "type": "withdrawal",
-            "amount": amount,
-            "description": description,
-            "date": datetime.now(),
-            "balance_after": self.balance
-        })
+### Account Freezing/Unfreezing:
 
-    def get_transaction_history(self):
-        return self.transactions
-```
+When frozen, no withdrawals are allowed, but deposits should still work.
 
-<figure>
-    <strong>With the traditional approach, we had to:</strong>
-    <ol>
-        <li>Add a completely new data structure</li>
-        <li>Update every state-changing method to record history</li>
-        <li>Create a new method to access the transaction history</li>
-    </ol>
-</figure>
+#### Traditional Approach
+* Add new boolean to database
+* Read/Write it as expected
 
-### Event Sourcing Approach - Adding a Transaction History
+#### Event Sourced
+* No database touches required
+* Add new event types `FreezeAccount` and `UnfreezeAccount`
+* Scan event stream backwards,
+    * if you see `UnfreezeAccount`, account is not frozen
+    * if you see `FreezeAccount`, account is frozen
+    * otherwise it's not frozen
 
-```py
-from eventsourcing.domain import Aggregate, event
-from datetime import datetime
+### Interest Calculation
 
-class EnhancedEventSourcedAccount(Aggregate):
-    def __init__(self, name: str):
-        self.name = name
-        self.balance = 0
-        # No need for additional state structure!
+calculate and apply monthly interest based on the average daily balance throughout the month.
 
-    @event("Deposited")
-    def deposit(self, amount: int, description: str = "", timestamp=None):
-        # Just add the new parameters to the event
-        self.balance += amount
-        # timestamp and description are automatically captured in the event
+#### Traditional Approach
 
-    @event("Withdrawn")
-    def withdraw(self, amount: int, description: str = "", timestamp=None):
-        if amount > self.balance:
-            raise ValueError("Insufficient funds")
-        self.balance -= amount
-        # timestamp and description are automatically captured in the event
+* Update DB to accommodate interest series'
+* Run a nightly script to calculate interest, save to DB
+* At end of month add together interest series
 
-    # To get transaction history, we can simply replay and filter events
-    # The framework handles this for us!
-```
+#### Event sourcing
 
-<figure>
-    <strong>With event sourcing:</strong>
-    <ol>
-        <li>We simply added new parameters to our events</li>
-        <li>No need for new data structures or methods to track history</li>
-        <li>History was already being captured automatically</li>
-        <li>However, we may need to handle existing events through upcasting</li>
-    </ol>
-</figure>
+* Calculate daily balances by replaying event stream
+* Apply interest to daily balances
+* No database touches required
+
+---
+
+In each of these examples, adding new functionality is easier and safer using Event Sourcing. Consider further extension - What if we now want a log of who froze/unfroze accounts?
 
 ## Upcasting
 
-This example highlights an important point about event sourcing: when you add new fields to events, you need to handle existing events through a process called **upcasting**.
+An important point about event sourcing: if you find yourself needing to add new fields to events, you have to handle existing events in the DB through a process called **upcasting**.
 
-Since existing "Deposited" and "Withdrawn" events in our store don't have the `description` field, we'd need to define an upcaster that transforms older event versions to the newer schema:
+Since events in the DB are immutable, they can't be migrated. So we add code to migrate the events at read time.
 
-```py
-def upcast_deposit_event(old_event):
-    # Transform old event data to new format
-    if "description" not in old_event:
-        old_event["description"] = ""  # Add default value
-    if "timestamp" not in old_event:
-        old_event["timestamp"] = old_event.get("created_at", None)  # Use creation time
-    return old_event
-```
+If you model your events right, you shouldn't need too much upcasting. But you likely will at some point.
 
-This upcasting step is usually necessary whenever you evolve your event schema, although in our case it isn't necessary because all of our event parameters have default values.
-
-While upcasting adds some complexity, it allows you to maintain all your historical data while still evolving your domain model - a key benefit of event sourcing that traditional approaches can't match.
-
-I have [a deep dive on upcasting](/post/05-upcasting-deep-dive) - read this to go into more detail about this aspect of event sourcing.
+I have [a deep dive on upcasting](/post/05-upcasting-deep-dive) that goes into more detail.
 
 ## Some General Pitfalls and How to Avoid Them
 
@@ -434,7 +384,7 @@ Based on my team's experience with event sourcing, here are some pitfalls we've 
 
    **Solution:** Invest in upfront learning and knowledge sharing. Have your team spend time studying event sourcing patterns before making key decisions. Mistakes can be costly, so this initial investment pays off.
 
-## Mistakes I Made With My Team
+## Mistakes I've Made
 
 ### Overreliance on a Single Projector / Aggregate
 
