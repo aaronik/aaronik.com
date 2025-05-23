@@ -409,11 +409,15 @@ The class never fell into statefulness or anything, it just accumulated lots of 
 
 ## Summary
 
-- Use event sourcing when you want auditability, traceability, and temporal state recreation.
-- Complex domains with evolving business rules benefit from it.
-- It's a natural fit for event-driven architectures.
-- Be prepared for everyone to study event sourcing architectural patterns.
-- Invest time in event storming and proper domain modeling before implementation.
-- Keep events small and discrete to avoid painful upcasting issues.
-- If your use case is simple or your team unlikely to embrace alternative architectural patterns, consider using simpler persistence models.
+* Use event sourcing when you want auditability, traceability, and temporal state recreation.
+* Complex domains with evolving business rules benefit from it.
+* It's a natural fit for event-driven architectures.
+* Be prepared for everyone to study event sourcing architectural patterns.
+* Invest time in event storming and proper domain modeling before implementation.
+* Keep events small and discrete to avoid painful upcasting issues.
+* If your use case is simple or your team unlikely to embrace alternative architectural patterns, consider using simpler persistence models.
 
+## Further Reading
+
+* https://eventmodeling.org/ - A community of folk really into event sourcing
+* https://leanpub.com/eventmodeling-and-eventsourcing - A book on doing it right
