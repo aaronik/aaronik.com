@@ -342,7 +342,7 @@ Since events in the DB are immutable, they can't be migrated. So we add code to 
 
 If you model your events right, you shouldn't need too much upcasting. But you likely will at some point.
 
-I have [a deep dive on upcasting](/post/05-upcasting-deep-dive) that goes into more detail.
+I have [a deep dive on upcasting](/post/02-upcasting-deep-dive/) that goes into more detail.
 
 ## Some General Pitfalls and How to Avoid Them
 
