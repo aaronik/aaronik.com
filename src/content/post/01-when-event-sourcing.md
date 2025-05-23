@@ -402,6 +402,16 @@ The class never fell into statefulness or anything, it just accumulated lots of 
 
 **Next time:** Use a CQRS pattern from the beginning - dispense with the central service class, and put everything we need into commands and queries, including the projection logic to query the event stream.
 
+### Putting Domain Models into Events
+
+For example, we had one endpoint that allowed the user to update the domain model. That update was just a subset of the domain model itself. So we thought, why not put that domain model into the event, calling it a Partial.
+
+Well, that meant that every time that model updated, we needed up upcast the old event. This led us to an upcasting nightmare - we had many old versions of our domain model, many old versions of the event, even many modules that we tried to call static. The domain model we used was huge and linked out to many other sub models, some of which tracked up in versions, some didn't.
+
+**Mistake:** Putting our domain models, which evolve on their own, into our event stream.
+
+**Next time:** Keep them out! Instead, keep the events small and focused. Keep types local to the events. Lean into CQRS and segregate our projections.
+
 ## Best Practices
 
 * When designing events, model around verbs (actions), not nouns (entities).
