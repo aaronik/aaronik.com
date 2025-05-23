@@ -390,6 +390,8 @@ Deeper into event sourcing, one pattern emerges: Coupling your aggregates with y
 
    > "We made only a single projector into a huge aggregate that had, among other things, the primary domain object, then performed all kinds of complicated and error prone operations to coerce that object into what we ultimately wanted for whatever task we tried to accomplish." -- Sully
 
+   > "We got locked into a mindset of having an "internal representation" domain model in a middle layer between inputs and event creation, as well as between the event aggregation and the outputs, which hurt us a lot." -- Dees
+
    **Next time:** Bring projection logic closer to the query. Instead of always projecting into the same aggregate with the same domain model, then transforming that, prefer projecting into the shape you need directly. This will save a ton of unnecessary wiring.
 
 ### Overreliance on a Centralized Service Class
