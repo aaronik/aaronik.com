@@ -32,9 +32,9 @@ Use event sourcing when any of the following apply:
 
    Event sourcing naturally fits with event-driven architectures, where different subsystems react asynchronously to events. If your system is made of multiple components that need to stay loosely coupled and react independently to changes, event sourcing gives you a clean foundation.
 
-5. **You Can Handle Increased Complexity in Infrastructure**
+5. **Your Team Can Adapt to New Patterns**
 
-   Event sourcing requires managing event storage, snapshots (for performance in rebuilding state), event versioning, and eventual consistency issues. If your team and infrastructure are ready for this complexity, event sourcing can pay off. If not, the operational overhead might outweigh the benefits.
+    Event sourcing is a less familiar pattern, and there are initial stumbling blocks that can be costly down the road. Be sure to follow best practices from the get-go. Somebody experienced in event sourcing architecture keeping track of the implementation is highly recommended.
 
 ---
 
@@ -64,21 +64,26 @@ Event sourcing consists of several core components that together form the full a
 
 1. **Application Write Interface (Command Side)**
    - This is how your application accepts commands that intend to change state.
-   - Commands are validated and converted into events.
+   - Commands are validated, converted into events, and appended to the event stream.
 
 2. **Event Store (Database)**
    - The authoritative storage for all events.
    - Events are persisted immutably in an append-only log.
    - Acts as the source of truth for the system state.
 
-3. **Projector (Event Handler, Aggregator, or Read Model Builder)**
+3. **Projector (Event Handler, Aggregator, etc.)**
    - Is given event streams from the event store
    - Transforms event streams into Aggregates
    - This is what computes the current state from the event streams
 
-4. **Aggregate (Domain Entity)**
-   - The actual, computed state of your system.
-   - The aggregate state is reconstructed by replaying events.
+4. **Aggregate (Data View)**
+   - A computed state of your model, derived by replaying events.
+   - Aggregates are views into the true data: the event stream.
+   - They are the projections of that stream into whatever data you need at the moment, be it:
+       - three fields
+       - the biggest model
+       - some chunk of the data, how it was 7 months ago
+       - how many times that field has been updated over the last 2 weeks
 
 5. **Application Read Interface (Query Side)**
    - Provides the means to query the current state from read models built by projectors.
@@ -88,6 +93,9 @@ Other important pieces of the puzzle include:
 * **Snapshotting**
     - Caching the projected aggregate so that the application doesn't need to compute it the next time it's read.
     - Caching always introduces some complexity, but the normal advantage is realized: Application speed improves.
+
+* **Upcasting**
+    - Since the event stream is immutable by design, old events need to still be recognized if they've been updated to a newer version. Upcasting is the process of converting old events to newer events at read time.
 
 ---
 
@@ -101,7 +109,7 @@ Other important pieces of the puzzle include:
 | **Temporal queries**   | Generally not possible          | Natural capability               |
 | **Debugging**          | Current state only              | Can replay to see how state evolved |
 | **Storage requirements** | Generally lower               | Higher (stores all events and any snapshots) |
-| **Complexity**         | Simpler to implement           | More complex infrastructure      |
+| **Complexity**         | Simpler mental model           | More complex mental model      |
 
 ### When the Traditional Approach Works Well
 
@@ -110,7 +118,7 @@ The traditional state-based approach works well when:
 1. **Current state is all that matters** - You don't need historical data or audit trails.
 2. **Simple domain** - Business rules are straightforward and unlikely to change.
 3. **Resource constraints** - You have limited storage or processing power.
-4. **Team familiarity** - Your team is more experienced with traditional CRUD patterns.
+4. **Team familiarity** - Your team is unlikely to learn new patterns.
 
 ### When Event Sourcing Shines
 
@@ -121,6 +129,7 @@ Event sourcing becomes advantageous when:
 3. **Temporal queries needed** - "What was the state at time X?" is a requirement.
 4. **Integration requirements** - Events can be published to other systems for downstream processing.
 5. **Debugging complexity** - Being able to replay events helps troubleshoot issues.
+6. **Data Retention** - Data is valuable these days, the traditional approach effectively throws it away.
 
 ## What isn't Event Sourcing
 
@@ -133,10 +142,12 @@ It's important to understand what event sourcing is not, to avoid common misconc
 - **CQRS** separates the components that handle write operations (commands) from those that handle read operations (queries). This creates two distinct data models: one optimized for writes and another for reads.
 - **Event Sourcing** is about storing state changes as a sequence of events, rather than just the current state.
 
-While they work well together (events from event sourcing can be used to build read models for CQRS), you can implement:
+There's no problem implementing:
 
 - CQRS without event sourcing (using traditional databases for both command and query sides)
 - Event sourcing without CQRS (using the event log to rebuild state for both reads and writes)
+
+However, CQRS pairs quite well with event sourcing, where commands and queries project whatever they need, and commands casually toss events into the stream.
 
 ### Event Sourcing vs. Pub/Sub
 
@@ -162,10 +173,9 @@ Here's how we might implement a bank account using a traditional state-based app
 
 ```py
 class TraditionalAccount:
-    def __init__(self, name: str):
-        self.name = name
+    def __init__(self):
+        self.name = ""
         self.balance = 0
-        # We only store the current state
 
     def deposit(self, amount: int):
         # Directly mutate the current state
@@ -174,66 +184,102 @@ class TraditionalAccount:
     def withdraw(self, amount: int):
         if amount > self.balance:
             raise ValueError("Insufficient funds")
-        # Directly mutate the current state
         self.balance -= amount
 
-    # Only the current balance is accessible
-    def get_balance(self):
-        return self.balance
+    def update_name(self, name: str):
+        self.name = name
 
-# Usage example
-if __name__ == "__main__":
-    account = TraditionalAccount(name="Alice")
-    account.deposit(100)  # Balance is now 100
-    account.withdraw(30)  # Balance is now 70
-    print(f"Account balance: {account.get_balance()}")  # Output: 70
+account = TraditionalAccount()
+account.update_name("Alice")
+account.deposit(100)
+account.withdraw(30)
+account.save() # Write current state to the DB
 
-    # But we can't answer questions like:
-    # - How many transactions have occurred?
-    # - What was the balance at a specific point in time?
-    # - Who made each transaction and when?
+# Now all the information we can get:
+print(account.balance)  # 70
+print(account.name)  # Alice
+
 ```
 
 In this traditional approach, we store and update only the current state. Each operation directly mutates that state, and we have no built-in history of how we arrived at the current balance.
 
-### Event Sourcing Approach with the [`eventsourcing`](https://pypi.org/project/eventsourcing/) Library
+### Event Sourcing Approach
 
 Now, here's the same domain implemented using event sourcing:
 
 ```py
-from eventsourcing.domain import Aggregate, event
+from typing import Union
+from pydantic import BaseModel
 
-class EventSourcedAccount(Aggregate):
-    def __init__(self, name: str):
-        self.name = name
+class Deposit(BaseModel):
+    amount: int
+
+class Withdraw(BaseModel):
+    amount: int
+
+class NameUpdate(BaseModel):
+    name: str
+
+# For ease of use
+Event = Union[Deposit, NameUpdate, Withdraw]
+
+event_stream: list[Event] = []
+event_stream.append(NameUpdate(name="Alice"))
+event_stream.append(Deposit(amount=100))
+event_stream.append(Withdraw(amount=30))
+
+# =============================================================#
+# Now we construct a reader for whatever question we're asking #
+# =============================================================#
+
+# QUESTION: How many transactions were there?
+num_transactions = sum(
+    1
+    for event in event_stream
+    if isinstance(event, (Deposit, Withdraw))
+)
+
+print(num_transactions) # 2
+
+# QUESTION: What was Alice's highest ever balance?
+def project_max_balance(event_stream: list[Event]) -> int:
+    balance = 0
+    max_balance = 0
+
+    for event in event_stream:
+        if isinstance(event, Deposit):
+            balance += event.amount
+        elif isinstance(event, Withdraw):
+            balance -= event.amount
+
+        if balance > max_balance:
+            max_balance = balance
+
+    return max_balance
+
+print(project_max_balance(event_stream)) # 100
+
+# QUESTION: What is the account object as if we had a traditional
+# storage mechanism
+class EventSourcedAccount:
+    def __init__(self):
+        self.name = ""
         self.balance = 0
-        # Internal state is built from events
 
-    @event("Deposited")
-    def deposit(self, amount: int):
-        # Method creates an event and updates state
-        self.balance += amount
+def project_account(event_stream: list[Event]) -> EventSourcedAccount:
+    account = EventSourcedAccount()
 
-    @event("Withdrawn")
-    def withdraw(self, amount: int):
-        if amount > self.balance:
-            raise ValueError("Insufficient funds")
-        # Method creates an event and updates state
-        self.balance -= amount
+    for event in event_stream:
+        if isinstance(event, Deposit):
+            account.balance += event.amount
+        elif isinstance(event, Withdraw):
+            account.balance -= event.amount
+        elif isinstance(event, NameUpdate):
+            account.name = event.name
 
-    # The current state is derived from the event history
+    return account
 
-# Usage example
-if __name__ == "__main__":
-    account = EventSourcedAccount(name="Alice")
-    account.deposit(100)  # Creates a "Deposited" event
-    account.withdraw(30)  # Creates a "Withdrawn" event
-    print(f"Account balance after events: {account.balance}")  # Output: 70
-
-    # With event sourcing, we could:
-    # - Replay events to audit the full history
-    # - Calculate the balance at any point in time
-    # - Add metadata to each event (who, when, why)
+print(project_account(event_stream)) # EventSourcedAccount(name="Alice", balance="70")
 ```
 
 Every state-changing method is decorated with `@event`, which means the state transitions are recorded as events. The library can replay these events to rebuild the aggregate state at any time.
@@ -352,7 +398,7 @@ While upcasting adds some complexity, it allows you to maintain all your histori
 
 I have [a deep dive on upcasting](/post/05-upcasting-deep-dive) - read this to go into more detail about this aspect of event sourcing.
 
-## Common Pitfalls and How to Avoid Them
+## Some General Pitfalls and How to Avoid Them
 
 Based on my team's experience with event sourcing, here are some pitfalls we've fallen into, and how to potentially avoid them:
 
@@ -382,22 +428,49 @@ Based on my team's experience with event sourcing, here are some pitfalls we've 
 
 ### Knowledge Gap and Learning Curve
 
-   **Problem:** For teams unfamiliar with event sourcing, there's a significant learning curve:
+   **Problem:** For teams unfamiliar with event sourcing, there's a learning curve:
 
    > "For people who've not ever done it, it takes time to teach them to do it. If they've never experienced anything like it before, it can be quite a mental leap." -- Ted
 
-   **Solution:** Invest in upfront learning and knowledge sharing. Have your team spend time studying event sourcing patterns, watching presentations, and reading articles before making key design decisions. This initial investment pays off by preventing costly mistakes later.
+   **Solution:** Invest in upfront learning and knowledge sharing. Have your team spend time studying event sourcing patterns before making key decisions. Mistakes can be costly, so this initial investment pays off.
 
+## Mistakes I Made With My Team
+
+### Overreliance on a Single Projector / Aggregate
+
+Deeper into event sourcing, one pattern emerges: Coupling your aggregates with your commands and queries (**CQ**RS). Leaning into the abstraction, there is no true representation of the data but the event stream itself. Every projection, even one that represents your biggest domain model, is still only a subset of the data. Projections are only views into the true data. So now consider writing a query. You can be selective about what you project, and do it into whatever shape you want. You can project directly into the shape the API client is expecting, for example.
+
+   **Mistake:** Having only one projector, which projects into a mega aggregate, which has data on it for all kinds of different functionality. Then transforming that model to the thing we need at the moment.
+
+   > "We made only a single projector into a huge aggregate that had, among other things, the primary domain object, then performed all kinds of complicated and error prone operations to coerce that object into what we ultimately wanted for whatever task we tried to accomplish." -- Sully
+
+   **Next time:** Bring projection logic closer to the query. Instead of always projecting into the same aggregate with the same domain model, then transforming that, prefer projecting into the shape you need directly. This will save a ton of unnecessary wiring.
+
+### Overreliance on a Centralized Service Class
+
+It's happened to all of us: One big house for all of our reads/writes to the event stream, all operating around one central, mega domain object, which we got from our one mega aggregate.
+
+The class never fell into statefulness or anything, it just accumulated lots of methods. But here's the thing: Its existence was predicated on the concept of one centralized domain model. That model is the underlying common theme among all those methods. If we dispense with the concept of this one big model, we can decouple all those methods. So instead of having this central spot where all the model transformation logic lives, we could use projection to shape each query, and put that projection logic right into the query itself. Furthermore, we could accumulate common projection patterns, make them composable, and generate a simple DSL for for querying the event stream.
+
+**Mistake:** We ended up growing our single aggregate and its service class over time to handle all the different functionality we kept programming into it.
+
+**Next time:** Use a CQRS pattern from the beginning - dispense with the central service class, and put everything we need into commands and queries, including the projection logic to query the event stream.
+
+## Best Practices
+
+* When designing events, model around verbs (actions), not nouns (entities).
+
+For example: instead having an object `car`,  with methods like `car.start()`, which populate state `car.started = true`, then saving `car.save()`, you drop events into the event stream, like `CarStarted(car_id)`. Then when someone needs to know how many running cars there are, they can count `CarStarted` events (minus `CarStopped` events?) or something.
+
+* Strongly consider using a CQRS pattern
 
 ## Summary
 
-- Use event sourcing when auditability, traceability, and temporal state recreation are critical.
+- Use event sourcing when you want auditability, traceability, and temporal state recreation.
 - Complex domains with evolving business rules benefit from it.
 - It's a natural fit for event-driven architectures.
-- Be prepared for operational complexity including event versioning and snapshotting.
+- Be prepared for everyone to study event sourcing architectural patterns.
 - Invest time in event storming and proper domain modeling before implementation.
 - Keep events small and discrete to avoid painful upcasting issues.
-- For teams new to event sourcing, invest in upfront learning to avoid costly mistakes.
-- If your use case is simple or your team unfamiliar with event-driven patterns, consider starting with simpler persistence models.
+- If your use case is simple or your team unlikely to embrace alternative architectural patterns, consider using simpler persistence models.
 
-By carefully considering your domain needs and operational constraints, you can decide if event sourcing is the right architectural pattern for your project.

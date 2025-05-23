@@ -24,8 +24,10 @@ main {
         font-size: var(--text-2xl);
         font-weight: var(--font-weight-bold);
 
-        border-left: 4px solid var(--color-surface);
-        padding-left: 0.75rem;
+        background-color: var(--color-surface);
+        width: fit-content;
+        padding: 0.2rem 0.4rem;
+        border-radius: 3px;
     }
 
     h4 {
@@ -33,10 +35,8 @@ main {
         font-size: var(--text-xl);
         font-weight: var(--font-weight-semibold);
 
-        background-color: var(--color-surface);
-        width: fit-content;
-        padding: 0.2rem 0.4rem;
-        border-radius: 3px;
+        /*border-left: 4px solid var(--color-surface);*/
+        /*padding-left: 0.75rem;*/
     }
 
     img {
