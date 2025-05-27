@@ -380,7 +380,7 @@ Based on my team's experience with event sourcing, here are some pitfalls we've 
 
    **Solution:** Invest in upfront learning and knowledge sharing. Have your team spend time studying event sourcing patterns before making key decisions. Mistakes can be costly, so this initial investment pays off.
 
-## Mistakes I've Made
+## Mistakes I've Made With My Team
 
 ### Overreliance on a Single Projector / Aggregate
 
