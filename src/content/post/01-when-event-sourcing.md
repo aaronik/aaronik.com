@@ -5,7 +5,7 @@ title: "Event Sourcing: When Is It Right to Use?"
 slug: "01-when-event-sourcing"
 imgSrc: "images/custom-event-sourcing.svg"
 description: "The first article in a short series on Event Sourcing. When is it right, and when is it wrong, to use an Event Sourcing storage pattern, with examples in python"
-date: "May 7 2025"
+date: "May 30 2025"
 authors: ["Aaron Sullivan"]
 draft: false
 ---
@@ -416,11 +416,6 @@ Well, that meant that every time that model updated, we needed up upcast the old
 **Mistake:** Putting our domain models, which evolve on their own, into our event stream.
 
 **Next time:** Keep them out! Instead, keep the events small and focused. Keep types local to the events. Lean into CQRS and segregate our projections.
-
-## Best Practices
-
-* When designing events, model around verbs (actions), not nouns (entities).
-* Strongly consider using a CQRS pattern
 
 ## Summary
 
