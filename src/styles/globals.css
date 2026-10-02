@@ -20,7 +20,7 @@
     --background-image-noise: linear-gradient(to bottom,
             color-mix(in oklab, var(--color-gray-950) 0%, transparent),
             color-mix(in oklab, var(--color-gray-950) 100%, transparent)),
-        url('/images/noise.png');
+        url('/images/noise.webp');
 }
 
 @layer base {

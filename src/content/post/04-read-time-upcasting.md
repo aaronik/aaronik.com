@@ -3,7 +3,7 @@ layout: "../../layouts/PostLayout.astro"
 pageTitle: "aaronik | upcasting a trad db"
 title: "Read Time Upcasting - Never Migrate your Deebs Again"
 slug: "04-read-time-upcasting"
-imgSrc: "images/good-deebs.png"
+imgSrc: "images/good-deebs.webp"
 description: "Read Time Upcasting - What, Why, How, What, And Why"
 date: "May 14 2025"
 authors: ["Aaron Sullivan"]

@@ -3,7 +3,7 @@ layout: "../../layouts/PostLayout.astro"
 pageTitle: "aaronik | deep eval"
 title: "DeepEval: Core Concepts Explained"
 slug: "05-deep-eval-intro"
-imgSrc: "images/event-sourcing.png"
+imgSrc: "images/event-sourcing.webp"
 description: "DeepEval core concepts"
 date: "May 3 2025"
 authors: ["Aaron Sullivan"]
